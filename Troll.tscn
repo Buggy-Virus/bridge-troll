@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdfalbhpmq4l7"]
+
+[ext_resource type="Texture2D" uid="uid://ftkxr8r4qghp" path="res://art/playerGrey_walk1.png" id="1_06dvr"]
+[ext_resource type="Script" path="res://Troll.cs" id="1_oiu71"]
+[ext_resource type="Texture2D" uid="uid://couyhcegeihme" path="res://art/playerGrey_walk2.png" id="2_6dqmu"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bqjeo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_06dvr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_6dqmu")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5mtuo"]
+radius = 27.0
+height = 68.0
+
+[node name="Troll" type="CharacterBody2D"]
+script = ExtResource("1_oiu71")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_bqjeo")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_5mtuo")
