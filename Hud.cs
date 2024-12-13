@@ -1,11 +1,11 @@
-using Godot;
 using System;
+using Godot;
 
 public partial class Hud : CanvasLayer
 {
 	[Signal]
 	public delegate void StartGameEventHandler();
-	
+
 	public void ShowMessage(string text)
 	{
 		Label message = GetNode<Label>("message");
@@ -14,8 +14,8 @@ public partial class Hud : CanvasLayer
 
 		GetNode<Timer>("message_timer").Start();
 	}
-	
-	async public void ShowGameOver()
+
+	public async void ShowGameOver()
 	{
 		ShowMessage("Game Over");
 
@@ -29,17 +29,17 @@ public partial class Hud : CanvasLayer
 		await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout);
 		GetNode<Button>("start_button").Show();
 	}
-	
+
 	public void UpdateScore(int score)
 	{
 		GetNode<Label>("score_label").Text = score.ToString();
 	}
-	
+
 	private void _on_message_timer_timeout()
 	{
 		GetNode<Label>("message").Hide();
 	}
-	
+
 	private void _on_start_button_pressed()
 	{
 		GetNode<Button>("start_button").Hide();

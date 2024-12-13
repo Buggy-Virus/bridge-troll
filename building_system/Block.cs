@@ -7,14 +7,16 @@ namespace BridgeTroll
 {
     public class Block
     {
-        public enum Type {
+        public enum Type
+        {
             None,
             Occupied,
         }
 
         public Type type { get; set; }
 
-        public Block() {
+        public Block()
+        {
             type = Type.None;
         }
     }

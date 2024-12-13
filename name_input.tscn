@@ -22,6 +22,7 @@ size_flags_vertical = 4
 metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
 offset_left = 64.0
 offset_top = 64.0
 offset_right = 448.0
