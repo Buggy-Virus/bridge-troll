@@ -35,16 +35,29 @@ height = 128.0
 
 [node name="DebugMob" type="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
+collision_layer = 0
+collision_mask = 1025
+safe_margin = 3.0
 script = ExtResource("1_e1ies")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 rotation = -1.5708
 sprite_frames = SubResource("SpriteFrames_agtys")
 animation = &"run"
-frame_progress = 0.547787
+frame_progress = 0.754553
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_nxl4w")
-disabled = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 50.0
+path_postprocessing = 1
+avoidance_enabled = true
+radius = 15.0
+neighbor_distance = 110.0
+time_horizon_obstacles = 1.0
+avoidance_layers = 0
+avoidance_mask = 1024
+debug_enabled = true
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bao7ddgi756k7"]
 
-[ext_resource type="Script" path="res://NameInput.cs" id="1_lejt3"]
+[ext_resource type="Script" path="res://main_menu/NameInput.cs" id="1_lejt3"]
 
 [node name="NameInput" type="CanvasLayer"]
 script = ExtResource("1_lejt3")

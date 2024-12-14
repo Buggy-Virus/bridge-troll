@@ -1,73 +1,85 @@
 using System;
+using BridgeTroll;
 using Godot;
 
-public partial class Main : Node
+namespace BridgeTroll
 {
-	[Export]
-	public PackedScene enemy_scene { get; set; }
+    public enum GameState
+    {
+        DAY_MODE,
+        NIGHT_MODE,
+        BUILD_MODE,
+        MAIN_MENU,
+    }
 
-	private int _score;
+    public partial class Main : Node2D
+    {
+        public GameBoard game_board;
+        private BuildMode build_mode_;
+        private DayMode day_mode_;
 
-	public override void _Ready() { }
+        private GameState active_state_;
+        private Node2D active_mode_;
 
-	public override void _Process(double delta) { }
+        // Called when the node enters the scene tree for the first time.
+        public override void _Ready()
+        {
+            game_board = GetNode<GameBoard>("GameBoard");
+            day_mode_ = GetNode<DayMode>("DayMode");
+            build_mode_ = GetNode<BuildMode>("BuildMode");
+            DisableNode(day_mode_);
+            DisableNode(build_mode_);
 
-	public void GameOver()
-	{
-		GetNode<Timer>("enemy_timer").Stop();
-		GetNode<Timer>("score_timer").Stop();
-		GetNode<Hud>("Hud").ShowGameOver();
-	}
+            EnableBuildMode();
+        }
 
-	public void NewGame()
-	{
-		_score = 0;
+        private void DisableNode(Node2D node)
+        {
+            if (node != null)
+            {
+                node.Visible = false;
+                node.SetProcess(false);
+                node.SetProcessInput(false);
+                node.SetPhysicsProcess(false);
+            }
+        }
 
-		GetTree().CallGroup("enemies", Node.MethodName.QueueFree);
+        private void EnableNode(Node2D node)
+        {
+            node.Visible = true;
+            node.SetProcess(true);
+            node.SetProcessInput(true);
+            node.SetPhysicsProcess(true);
+        }
 
-		Hud hud = GetNode<Hud>("Hud");
-		hud.UpdateScore(_score);
-		hud.ShowMessage("Get Ready!");
+        private void EnableBuildMode()
+        {
+            GD.Print("Build Mode");
+            active_state_ = GameState.BUILD_MODE;
+            DisableNode(active_mode_);
+            EnableNode(build_mode_);
+            active_mode_ = build_mode_;
+        }
 
-		Troll troll = GetNode<Troll>("troll");
-		troll.Position = GetNode<Marker2D>("start_position").Position;
+        private void EnableDayMode()
+        {
+            GD.Print("Day Mode");
+            active_state_ = GameState.DAY_MODE;
+            DisableNode(active_mode_);
+            EnableNode(day_mode_);
+            active_mode_ = day_mode_;
+        }
 
-		GetNode<Timer>("start_timer").Start();
-		GD.Print("Game Started");
-	}
-
-	private void _on_enemy_timer_timeout()
-	{
-		Enemy enemy = enemy_scene.Instantiate<Enemy>();
-
-		PathFollow2D spawn_location = GetNode<PathFollow2D>("enemy_path/enemy_spawn_location");
-		spawn_location.ProgressRatio = GD.Randf();
-
-		float direction = spawn_location.Rotation + Mathf.Pi / 2;
-
-		enemy.Position = spawn_location.Position;
-		enemy.Rotation = direction;
-
-		Vector2 velocity = new Vector2((float)GD.RandRange(150.0, 250.0), 0);
-		enemy.LinearVelocity = velocity.Rotated(direction);
-
-		AddChild(enemy);
-	}
-
-	private void _on_score_timer_timeout()
-	{
-		_score++;
-		GetNode<Hud>("Hud").UpdateScore(_score);
-	}
-
-	private void _on_start_timer_timeout()
-	{
-		GetNode<Timer>("enemy_timer").Start();
-		GetNode<Timer>("score_timer").Start();
-	}
-
-	private void _on_hud_start_game()
-	{
-		NewGame();
-	}
+        public override void _Input(InputEvent @event)
+        {
+            if (@event.IsActionPressed("build_mode") && active_state_ != GameState.BUILD_MODE)
+            {
+                EnableBuildMode();
+            }
+            else if (@event.IsActionPressed("day_mode") && active_state_ != GameState.DAY_MODE)
+            {
+                EnableDayMode();
+            }
+        }
+    }
 }

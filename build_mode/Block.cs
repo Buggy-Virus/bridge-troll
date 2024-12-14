@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BridgeTroll;
 
 namespace BridgeTroll
 {
@@ -10,6 +11,7 @@ namespace BridgeTroll
         public enum Type
         {
             None,
+            Clear,
             Occupied,
         }
 
@@ -17,7 +19,7 @@ namespace BridgeTroll
 
         public Block()
         {
-            type = Type.None;
+            type = Type.Clear;
         }
     }
 }

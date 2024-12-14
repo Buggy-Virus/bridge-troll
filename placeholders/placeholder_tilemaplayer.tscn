@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2nbm8e13rg8j"]
+
+[ext_resource type="TileSet" uid="uid://ucduvbo452lx" path="res://tile_sets/placerholder.tres" id="1_0rgjl"]
+
+[node name="BuildModeGrid" type="TileMapLayer"]
+tile_set = ExtResource("1_0rgjl")
