@@ -1,11 +1,43 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdfalbhpmq4l7"]
+[gd_scene load_steps=10 format=3 uid="uid://cdfalbhpmq4l7"]
 
 [ext_resource type="Texture2D" uid="uid://ftkxr8r4qghp" path="res://art/playerGrey_walk1.png" id="1_06dvr"]
 [ext_resource type="Script" path="res://troll/Troll.cs" id="1_oiu71"]
+[ext_resource type="Texture2D" uid="uid://bko65a0nd66st" path="res://art/playerGrey_up2.png" id="2_2x3wo"]
 [ext_resource type="Texture2D" uid="uid://couyhcegeihme" path="res://art/playerGrey_walk2.png" id="2_6dqmu"]
+[ext_resource type="Texture2D" uid="uid://b4yyoafu8bi0q" path="res://art/playerGrey_up1.png" id="3_g1fuv"]
+[ext_resource type="PackedScene" uid="uid://c007muxmrtoi7" path="res://troll/decision_popup.tscn" id="4_wfwtu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bqjeo"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_2x3wo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_g1fuv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_2x3wo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_g1fuv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_2x3wo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_g1fuv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_2x3wo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_g1fuv")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_06dvr")
@@ -22,14 +54,52 @@ animations = [{
 radius = 27.0
 height = 68.0
 
-[node name="Troll" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ffcbf"]
+radius = 128.0
+
+[node name="Troll" type="CharacterBody2D" groups=["Scary_Characters"]]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_oiu71")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_bqjeo")
-animation = &"walk"
+animation = &"attack"
+frame = 7
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_5mtuo")
+
+[node name="SelectionArea" type="Area2D" parent="." groups=["Scary_Characters"]]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea" groups=["Mob_Scary"]]
+shape = SubResource("CapsuleShape2D_5mtuo")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 5.0
+debug_enabled = true
+
+[node name="DecisionPopup" parent="." instance=ExtResource("4_wfwtu")]
+offset_left = -40.0
+offset_top = -176.0
+offset_right = -40.0
+offset_bottom = -176.0
+
+[node name="ScareArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScareArea"]
+shape = SubResource("CircleShape2D_ffcbf")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -40.0
+offset_top = -56.0
+offset_right = 40.0
+offset_bottom = -40.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,37 +1,37 @@
-[gd_scene load_steps=10 format=3 uid="uid://dbkyk7qievqbx"]
+[gd_scene load_steps=10 format=3 uid="uid://b5t2bc17hpdlc"]
 
-[ext_resource type="Script" path="res://mobs/Mob.cs" id="1_e1ies"]
-[ext_resource type="Texture2D" uid="uid://bu4221t7qpa7d" path="res://art/enemyWalking_1.png" id="1_yc2lc"]
-[ext_resource type="Texture2D" uid="uid://bpot8awhdn6ph" path="res://art/enemyFlyingAlt_2.png" id="2_pyv3m"]
-[ext_resource type="Texture2D" uid="uid://booij5t7h4efb" path="res://art/enemyWalking_2.png" id="2_qvl5c"]
-[ext_resource type="Texture2D" uid="uid://yqglrrsx7j1f" path="res://art/enemyFlyingAlt_1.png" id="3_6i8sj"]
+[ext_resource type="Script" path="res://mobs/WarMob.cs" id="1_3u1tg"]
+[ext_resource type="Texture2D" uid="uid://bpot8awhdn6ph" path="res://art/enemyFlyingAlt_2.png" id="2_mpvva"]
+[ext_resource type="Texture2D" uid="uid://yqglrrsx7j1f" path="res://art/enemyFlyingAlt_1.png" id="3_onkw5"]
+[ext_resource type="Texture2D" uid="uid://bu4221t7qpa7d" path="res://art/enemyWalking_1.png" id="4_4d0fh"]
+[ext_resource type="Texture2D" uid="uid://booij5t7h4efb" path="res://art/enemyWalking_2.png" id="5_x76qu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_agtys"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_pyv3m")
+"texture": ExtResource("2_mpvva")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_6i8sj")
+"texture": ExtResource("3_onkw5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_pyv3m")
+"texture": ExtResource("2_mpvva")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_6i8sj")
+"texture": ExtResource("3_onkw5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_pyv3m")
+"texture": ExtResource("2_mpvva")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_6i8sj")
+"texture": ExtResource("3_onkw5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_pyv3m")
+"texture": ExtResource("2_mpvva")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_6i8sj")
+"texture": ExtResource("3_onkw5")
 }],
 "loop": true,
 "name": &"attack",
@@ -39,10 +39,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_yc2lc")
+"texture": ExtResource("4_4d0fh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_qvl5c")
+"texture": ExtResource("5_x76qu")
 }],
 "loop": true,
 "name": &"run",
@@ -50,10 +50,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_yc2lc")
+"texture": ExtResource("4_4d0fh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_qvl5c")
+"texture": ExtResource("5_x76qu")
 }],
 "loop": true,
 "name": &"walk",
@@ -71,11 +71,11 @@ height = 128.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_7wuxq"]
 radius = 128.0
 
-[node name="DebugMob" type="CharacterBody2D" groups=["NPCs"]]
+[node name="WarMob" type="CharacterBody2D" groups=["NPCs"]]
 scale = Vector2(0.5, 0.5)
 collision_mask = 1024
 safe_margin = 3.0
-script = ExtResource("1_e1ies")
+script = ExtResource("1_3u1tg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 rotation = -1.5708

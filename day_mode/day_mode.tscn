@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bijwo25jcdjvf"]
+[gd_scene load_steps=9 format=3 uid="uid://bijwo25jcdjvf"]
 
 [ext_resource type="Script" path="res://day_mode/DayMode.cs" id="1_pg0c5"]
 [ext_resource type="PackedScene" uid="uid://dbkyk7qievqbx" path="res://mobs/debug_mob.tscn" id="2_e76ly"]
+[ext_resource type="PackedScene" uid="uid://b5t2bc17hpdlc" path="res://mobs/war_mob.tscn" id="3_a8al2"]
+[ext_resource type="PackedScene" uid="uid://cacqmoby0cvjn" path="res://day_mode/mouse_area.tscn" id="4_qf3bh"]
 [ext_resource type="PackedScene" uid="uid://cdfalbhpmq4l7" path="res://troll/troll.tscn" id="5_bgmo4"]
+[ext_resource type="Script" path="res://day_mode/MouseArea.cs" id="5_kthss"]
 
 [sub_resource type="Curve2D" id="Curve2D_rebq8"]
 _data = {
@@ -18,7 +21,8 @@ point_count = 2
 
 [node name="DayMode" type="Node2D"]
 script = ExtResource("1_pg0c5")
-mob_packed_scene_ = ExtResource("2_e76ly")
+debug_mob_packed_scene = ExtResource("2_e76ly")
+war_mob_packed_scene = ExtResource("3_a8al2")
 
 [node name="RightSide" type="Path2D" parent="."]
 curve = SubResource("Curve2D_rebq8")
@@ -33,7 +37,8 @@ curve = SubResource("Curve2D_pdqab")
 [node name="PathFollow2D" type="PathFollow2D" parent="LeftSide"]
 rotation = 1.5708
 
-[node name="StepTimer" type="Timer" parent="."]
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 3.0
 autostart = true
 
 [node name="Troll" parent="." instance=ExtResource("5_bgmo4")]
@@ -41,4 +46,7 @@ position = Vector2(512, 320)
 
 [node name="Mobs" type="Node2D" parent="."]
 
-[connection signal="timeout" from="StepTimer" to="." method="_on_step_timer_timeout"]
+[node name="MouseArea" parent="." instance=ExtResource("4_qf3bh")]
+script = ExtResource("5_kthss")
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

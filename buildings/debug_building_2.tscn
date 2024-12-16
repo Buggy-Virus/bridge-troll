@@ -25,8 +25,3 @@ freeze = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 top_level = true
 shape = SubResource("RectangleShape2D_0p02t")
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-avoidance_enabled = true
-avoidance_layers = 1025
-avoidance_mask = 1025

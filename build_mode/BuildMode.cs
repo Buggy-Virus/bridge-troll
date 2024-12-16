@@ -145,7 +145,7 @@ namespace BridgeTroll
                     .Shape.GetRect()
                     .Size;
 
-                // _current_building_cursor.GetNode<CollisionShape2D>("RigidBody2D").Disabled = true;
+                _current_building_cursor.GetNode<RigidBody2D>("RigidBody2D").QueueFree();
 
                 _current_building_tile_size.X = (int)(
                     current_building_collision_size_.X / _tile_size.X

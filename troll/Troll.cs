@@ -1,56 +1,109 @@
 using System;
+using System.Collections.Generic;
 using BridgeTroll;
 using Godot;
+using Godot.Collections;
 
 namespace BridgeTroll
 {
-    public partial class Troll : CharacterBody2D
+    public enum VictimOption
     {
-        [Signal]
-        public delegate void HitEventHandler();
+        RELEASE,
+        EXTORT,
+        PRESS,
+        ACCEPT,
+        MUG,
+        ROB,
+        EAT,
+    }
 
-        [Export]
-        public int speed { get; set; } = 400; // (pixels/sec)
+    public partial class Troll : Character
+    {
+        public DecisionPopup decision_popup_;
+        public List<VictimOption> decision_list = new();
 
-        private Vector2 _screen_size;
-        private AnimatedSprite2D _animated_sprite;
-
-        private Vector2 _target;
-
-        public override void _Ready()
+        public override void UniqueReady()
         {
-            _screen_size = GetViewportRect().Size;
-            _animated_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+            walk_speed = 600.0f;
+            run_speed = 10000.0f;
+
+            max_hit_points = 100;
+            hit_points = 100;
+
+            scary = 10;
+
+            decision_popup_ = GetNode<DecisionPopup>("DecisionPopup");
+            target_position = Position;
+            decision_popup_.Visible = false;
         }
 
-        public override void _Input(InputEvent @event)
+        public override void UniqueEnterGrapplingState()
         {
-            if (@event.IsActionPressed("right_click"))
+            decision_popup_.Visible = true;
+
+            decision_list.Add(VictimOption.RELEASE);
+            if (!grappled_character.options_experienced.Contains(VictimOption.EXTORT))
             {
-                _target = GetGlobalMousePosition();
+                decision_list.Add(VictimOption.EXTORT);
+            }
+
+            if (
+                grappled_character.options_experienced.Contains(VictimOption.EXTORT)
+                && grappled_character.options_experienced.Contains(VictimOption.PRESS)
+            )
+            {
+                decision_list.Add(VictimOption.PRESS);
+            }
+
+            if (grappled_character.offered_payment > 0)
+            {
+                decision_list.Add(VictimOption.ACCEPT);
+            }
+
+            if (
+                !grappled_character.options_experienced.Contains(VictimOption.MUG)
+                && !grappled_character.is_surrendered
+            )
+            {
+                decision_list.Add(VictimOption.MUG);
+            }
+
+            if (
+                !grappled_character.options_experienced.Contains(VictimOption.ROB)
+                && grappled_character.is_surrendered
+            )
+            {
+                decision_list.Add(VictimOption.ROB);
+            }
+
+            if (
+                !grappled_character.options_experienced.Contains(VictimOption.EAT)
+                && grappled_character.is_surrendered
+            )
+            {
+                decision_list.Add(VictimOption.EAT);
             }
         }
 
-        public override void _PhysicsProcess(double delta)
+        public override void UniqueExitGrapplingState()
         {
-            Velocity = Position.DirectionTo(_target) * speed;
-            if (Position.DistanceTo(_target) > 5)
-            {
-                MoveAndSlide();
-                if (Velocity.X < 0)
-                {
-                    _animated_sprite.FlipH = true;
-                }
-                else
-                {
-                    _animated_sprite.FlipH = false;
-                }
-                _animated_sprite.Play();
-            }
-            else
-            {
-                _animated_sprite.Stop();
-            }
+            decision_popup_.Visible = false;
+            decision_list = new();
+        }
+
+        public void StartExtortCharacter(Character victim) { }
+
+        public void StartMugCharacter(Character victim)
+        {
+            StartFightingCharacter(victim);
+        }
+
+        public void StartEatCharacter(Character victim) { }
+
+        public void StartRobCharacter(Character victim)
+        {
+            gold += victim.gold;
+            victim.gold = 0;
         }
     }
 }

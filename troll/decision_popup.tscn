@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://c007muxmrtoi7"]
+
+[ext_resource type="Script" path="res://troll/DecisionPopup.cs" id="1_nskm2"]
+
+[node name="DecisionPopup" type="Panel"]
+anchors_preset = -1
+anchor_right = 0.111
+anchor_bottom = 0.2
+offset_right = -127.872
+offset_bottom = -128.0
+script = ExtResource("1_nskm2")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 120.0
+offset_bottom = 120.0
+text = "A: Mug
+B: Extort
+C: Eat
+D: Let Go"
