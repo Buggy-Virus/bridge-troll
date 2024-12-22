@@ -6,36 +6,41 @@ namespace BridgeTroll
 {
     public partial class NameInput : CanvasLayer
     {
-        public Random random = new Random();
+        [Signal]
+        public delegate void name_acceptedEventHandler(string name);
 
-        public LineEdit _name_input;
+        public Random random = new();
+
+        public LineEdit name_input_;
+        private Button accept_button_;
 
         private string[] _bookend_letters =
         {
-            "B",
-            "C",
+            // "B",
+            // "C",
             "D",
-            "G",
+            // "G",
             "K",
-            "M",
-            "N",
-            "P",
+            // "M",
+            // "N",
+            // "P",
             "Q",
-            "S",
+            // "S",
             "T",
-            "V",
+            // "V",
             "X",
-            "Z",
+            // "Z",
         };
-        private string[] _modifying_letters = { "H", "L", "R", "W" };
-        private string[] _vowels = { "A", "E", "I", "O", "U", "Y" };
+        private string[] _modifying_letters = { "H", "R" };
+        private string[] _vowels = { "E", "O", "U", "Y" };
 
         public string name = "";
 
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            _name_input = GetNode<LineEdit>("Panel/LineEdit");
+            name_input_ = GetNode<LineEdit>("Panel/LineEdit");
+            accept_button_ = GetNode<Button>("Panel/Button");
         }
 
         string GetBookendLetter()
@@ -90,7 +95,15 @@ namespace BridgeTroll
             {
                 RemoveLastLetter();
             }
-            _name_input.Text = name;
+            name_input_.Text = name;
+        }
+
+        private void _on_button_pressed()
+        {
+            if (name_input_.Text != "")
+            {
+                EmitSignal(SignalName.name_accepted, name_input_.Text);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c007muxmrtoi7"]
+[gd_scene load_steps=3 format=3 uid="uid://c007muxmrtoi7"]
 
 [ext_resource type="Script" path="res://troll/DecisionPopup.cs" id="1_nskm2"]
+[ext_resource type="PackedScene" uid="uid://pr45n8hmam31" path="res://troll/decision_option.tscn" id="2_mm83n"]
 
 [node name="DecisionPopup" type="Panel"]
 anchors_preset = -1
@@ -9,14 +10,16 @@ anchor_bottom = 0.2
 offset_right = -127.872
 offset_bottom = -128.0
 script = ExtResource("1_nskm2")
+option_label_packed_scene = ExtResource("2_mm83n")
 
-[node name="Label" type="Label" parent="."]
+[node name="OfferedPaymentLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 16.0
-offset_right = 120.0
-offset_bottom = 120.0
-text = "A: Mug
-B: Extort
-C: Eat
-D: Let Go"
+offset_right = 128.0
+offset_bottom = 128.0
+text = "DEBUG"
+
+[node name="OptionLabels" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 95.0
+offset_right = 64.0
+offset_bottom = 127.0

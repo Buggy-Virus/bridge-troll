@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://pr45n8hmam31"]
+
+[node name="DecisionOption" type="Label"]

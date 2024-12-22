@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://uoxbkiy5elq5"]
+[gd_scene load_steps=7 format=3 uid="uid://uoxbkiy5elq5"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_4nfwn"]
 [ext_resource type="PackedScene" uid="uid://uci1883me6d" path="res://game_board.tscn" id="2_cemx8"]
 [ext_resource type="PackedScene" uid="uid://bfd0o7j0yq4ep" path="res://build_mode/build_mode.tscn" id="3_7hjdv"]
 [ext_resource type="PackedScene" uid="uid://bijwo25jcdjvf" path="res://day_mode/day_mode.tscn" id="3_b0wb0"]
+[ext_resource type="PackedScene" uid="uid://b178bgc5y3pgb" path="res://player_data.tscn" id="5_gw6c8"]
+[ext_resource type="PackedScene" uid="uid://x3pmvdrt0s7y" path="res://main_menu/main_menu.tscn" id="5_ktln4"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_4nfwn")
@@ -13,3 +15,11 @@ script = ExtResource("1_4nfwn")
 [node name="DayMode" parent="." instance=ExtResource("3_b0wb0")]
 
 [node name="BuildMode" parent="." instance=ExtResource("3_7hjdv")]
+
+[node name="PlayerData" parent="." instance=ExtResource("5_gw6c8")]
+
+[node name="MainMenu" parent="." instance=ExtResource("5_ktln4")]
+offset_left = 576.0
+offset_top = 320.0
+offset_right = 576.0
+offset_bottom = 320.0

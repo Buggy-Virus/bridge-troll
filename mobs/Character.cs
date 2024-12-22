@@ -40,6 +40,7 @@ namespace BridgeTroll
     public partial class Character : CharacterBody2D
     {
         public CharacterType type = CharacterType.DEBUG;
+        public string name = "debug";
 
         public float limp_speed = 50.0f;
         public float walk_speed = 100.0f;
@@ -58,6 +59,8 @@ namespace BridgeTroll
         public int offered_payment = 0;
         public bool finished_transaction = false;
 
+        public int experience_yield = 10;
+
         public CharacterState state = CharacterState.NONE;
 
         public List<VictimOption> options_experienced = new();
@@ -75,9 +78,33 @@ namespace BridgeTroll
 
         public Character scary_character = null;
         public float necessary_away_from_scary = 200;
-        public Character grappled_character = null;
+        public Character victim_character = null;
+        public Character grappling_character = null;
 
         public Character fighting_character = null;
+
+        public void Die()
+        {
+            GD.Print("Goodbye Cruel World!");
+            QueueFree();
+        }
+
+        public void Damage(int damage_amount)
+        {
+            hit_points -= damage_amount;
+            health_bar.Value = hit_points;
+            if (hit_points < 0)
+            {
+                Die();
+            }
+        }
+
+        public void Heal(int heal_amount)
+        {
+            hit_points += heal_amount;
+            hit_points = Math.Min(hit_points, max_hit_points);
+            health_bar.Value = hit_points;
+        }
 
         // None State
         public virtual void UniqueEnterNoneState() { }
@@ -201,7 +228,8 @@ namespace BridgeTroll
         // Grappling State
         public void StartGrapplingCharacter(Character target_character)
         {
-            grappled_character = target_character;
+            victim_character = target_character;
+            victim_character.grappling_character = this;
             target_character.EnterSquirmingState();
             EnterGrapplingState();
         }
@@ -226,8 +254,7 @@ namespace BridgeTroll
 
         public void ExitGrapplingState()
         {
-            grappled_character.EnterNoneState();
-            grappled_character = null;
+            victim_character = null;
             UniqueExitGrapplingState();
         }
 
@@ -250,6 +277,18 @@ namespace BridgeTroll
 
         public void SquirmingState()
         {
+            if (!IsInstanceValid(grappling_character))
+            {
+                EnterNoneState();
+                return;
+            }
+
+            if (grappling_character.state != CharacterState.GRAPPLING)
+            {
+                EnterNoneState();
+                return;
+            }
+
             UniqueSquirmingState();
         }
 
@@ -257,6 +296,7 @@ namespace BridgeTroll
 
         public void ExitSquirmingState()
         {
+            grappling_character = null;
             UniqueExitSquirmingState();
         }
 
@@ -268,6 +308,7 @@ namespace BridgeTroll
                 if (
                     area.IsInGroup("Scary_Characters")
                     && ((Character)area.GetParent()).scary > courage
+                    && ((Character)area.GetParent()).Velocity != new Vector2(0, 0)
                 )
                 {
                     scary_character = (Character)area.GetParent();
@@ -310,11 +351,10 @@ namespace BridgeTroll
         public void StartFightingCharacter(Character target_character)
         {
             fighting_character = target_character;
-            if (target_character.fighting_character is null)
-            {
-                target_character.fighting_character = this;
-            }
+            target_character.fighting_character ??= this;
             target_character.EnterFightingState();
+            GD.Print(target_character);
+            GD.Print(target_character.state.ToString());
             EnterFightingState();
         }
 
@@ -322,8 +362,7 @@ namespace BridgeTroll
         {
             if (state == CharacterState.FIGHTING)
             {
-                fighting_character.hit_points -= damage;
-                fighting_character.health_bar.Value = fighting_character.hit_points;
+                fighting_character.Damage(damage);
             }
         }
 
@@ -342,26 +381,25 @@ namespace BridgeTroll
         {
             if (!IsInstanceValid(fighting_character))
             {
+                GD.Print("No Opponent!");
                 EnterNoneState();
                 return;
             }
 
-            if (fighting_character.state == CharacterState.SQUIRMING)
+            if (fighting_character.hit_points < fighting_character.surrender_hit_points)
             {
+                GD.Print("They Surrendered!");
+                fighting_character.is_surrendered = true;
                 StartGrapplingCharacter(fighting_character);
                 return;
             }
 
+            GD.Print("Fighting Character State", fighting_character.state);
+            GD.Print("Fighting Character", fighting_character);
             if (fighting_character.state != CharacterState.FIGHTING)
             {
+                GD.Print(Name, ": They Left!");
                 EnterNoneState();
-                return;
-            }
-
-            if (hit_points < surrender_hit_points && !is_surrendered)
-            {
-                is_surrendered = true;
-                EnterSquirmingState();
                 return;
             }
 
@@ -376,6 +414,7 @@ namespace BridgeTroll
 
         public void ExitFightingState()
         {
+            GD.Print("Exit Fight State Called");
             fighting_character = null;
             UniqueExitFightingState();
         }
@@ -389,6 +428,7 @@ namespace BridgeTroll
 
         public void ExitCurrentState()
         {
+            Velocity = new Vector2(0, 0);
             animated_sprite_.Stop();
             if (state == CharacterState.NONE)
             {
@@ -467,11 +507,6 @@ namespace BridgeTroll
             else if (state == CharacterState.FIGHTING)
             {
                 FightingState();
-            }
-
-            if (hit_points < 0)
-            {
-                QueueFree();
             }
 
             {

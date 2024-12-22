@@ -70,6 +70,12 @@ namespace BridgeTroll
         // Called every frame. 'delta' is the elapsed time since the previous frame.
         public override void _Process(double delta) { }
 
+        private bool PressedValidAction(InputEvent @event, VictimOption option)
+        {
+            return @event.IsActionPressed(option.ToString())
+                && troll_.decision_list.Contains(option);
+        }
+
         public override void _Input(InputEvent @event)
         {
             if (@event.IsActionPressed("left_click"))
@@ -98,33 +104,37 @@ namespace BridgeTroll
                 troll_.EnterWalkingState();
             }
 
+            // TODO: Could get rid of this grossness by making a dictionary from
+            // VictimOption to the relevant method.
             if (troll_.state == CharacterState.GRAPPLING)
             {
-                if (
-                    @event.IsActionPressed("extort")
-                    && troll_.decision_list.Contains(VictimOption.EXTORT)
-                )
+                if (PressedValidAction(@event, VictimOption.EXTORT))
                 {
-                    troll_.StartExtortCharacter(troll_.grappled_character);
+                    troll_.StartExtortCharacter(troll_.victim_character);
                 }
-                else if (
-                    @event.IsActionPressed("mug") && troll_.decision_list.Contains(VictimOption.MUG)
-                )
+                else if (PressedValidAction(@event, VictimOption.MUG))
                 {
-                    troll_.StartMugCharacter(troll_.grappled_character);
+                    troll_.StartMugCharacter(troll_.victim_character);
                 }
-                else if (
-                    @event.IsActionPressed("eat") && troll_.decision_list.Contains(VictimOption.EAT)
-                )
+                else if (PressedValidAction(@event, VictimOption.PRESS))
                 {
-                    troll_.StartEatCharacter(troll_.grappled_character);
+                    troll_.StartPressCharacter(troll_.victim_character);
                 }
-                else if (
-                    @event.IsActionPressed("release")
-                    && troll_.decision_list.Contains(VictimOption.RELEASE)
-                )
+                else if (PressedValidAction(@event, VictimOption.ROB))
                 {
-                    troll_.EnterNoneState();
+                    troll_.StartRobCharacter(troll_.victim_character);
+                }
+                else if (PressedValidAction(@event, VictimOption.EAT))
+                {
+                    troll_.StartEatCharacter(troll_.victim_character);
+                }
+                else if (PressedValidAction(@event, VictimOption.ACCEPT))
+                {
+                    troll_.StartAcceptCharacter(troll_.victim_character);
+                }
+                else if (PressedValidAction(@event, VictimOption.RELEASE))
+                {
+                    troll_.StartReleaseCharacter(troll_.victim_character);
                 }
             }
         }

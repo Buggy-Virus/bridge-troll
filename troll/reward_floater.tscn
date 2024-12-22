@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2bop8w8qjvwg"]
+
+[ext_resource type="Script" path="res://troll/RewardFloater.cs" id="1_8iili"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_751cb"]
+radius = 0.0
+
+[node name="RewardFloater" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 0
+mass = 0.001
+gravity_scale = 0.0
+script = ExtResource("1_8iili")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -7.0
+offset_right = 20.0
+offset_bottom = 7.0
+theme_override_font_sizes/font_size = 10
+text = "Def"
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_751cb")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -49,4 +49,8 @@ position = Vector2(512, 320)
 [node name="MouseArea" parent="." instance=ExtResource("4_qf3bh")]
 script = ExtResource("5_kthss")
 
+[node name="DayTimer" type="Timer" parent="."]
+wait_time = 240.0
+one_shot = true
+
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

@@ -1,0 +1,110 @@
+[gd_scene load_steps=3 format=3 uid="uid://x3pmvdrt0s7y"]
+
+[ext_resource type="Script" path="res://main_menu/MainMenu.cs" id="1_5tj7m"]
+[ext_resource type="PackedScene" uid="uid://bao7ddgi756k7" path="res://main_menu/name_input.tscn" id="2_6jvyr"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5tj7m")
+
+[node name="Banner" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -232.0
+offset_right = 142.0
+offset_bottom = -163.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Bridge Troll"
+horizontal_alignment = 1
+
+[node name="NewGameButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -64.0
+offset_right = 96.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "New Game"
+
+[node name="LoadGameButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_right = 96.0
+offset_bottom = 48.0
+text = "Load Game"
+
+[node name="SettingsButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = 64.0
+offset_right = 96.0
+offset_bottom = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Settings"
+
+[node name="AchievementsButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = 128.0
+offset_right = 96.0
+offset_bottom = 176.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Achievements"
+
+[node name="ReportBugButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = 192.0
+offset_right = 96.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Report Bug"
+
+[node name="NameInput" parent="." instance=ExtResource("2_6jvyr")]
+
+[connection signal="pressed" from="NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="LoadGameButton" to="." method="_on_load_game_button_pressed"]
+[connection signal="pressed" from="SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="AchievementsButton" to="." method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="ReportBugButton" to="." method="_on_report_bug_button_pressed"]
