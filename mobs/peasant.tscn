@@ -1,0 +1,148 @@
+[gd_scene load_steps=19 format=3 uid="uid://csjsk2ywyy8ib"]
+
+[ext_resource type="Script" path="res://mobs/Peasant.cs" id="1_3i5nh"]
+[ext_resource type="Texture2D" uid="uid://c47lwy0q6cfun" path="res://art/thug/thug_base_debug.png" id="2_4gash"]
+[ext_resource type="Texture2D" uid="uid://j6x7dk3prrna" path="res://art/thug/thug_attack_1_debug.png" id="3_i7r8b"]
+[ext_resource type="Texture2D" uid="uid://4etruh4k83nn" path="res://art/thug/thug_attack_2_debug.png" id="4_eksiu"]
+[ext_resource type="Texture2D" uid="uid://3mboaxoxwh13" path="res://art/thug/thug_attack_3_debug.png" id="5_tkxnh"]
+[ext_resource type="Texture2D" uid="uid://fyfnx0kmh5uh" path="res://art/thug/thug_attack_4_debug.png" id="6_3jl2h"]
+[ext_resource type="Texture2D" uid="uid://cuh6bxv6v2gv5" path="res://art/thug/thug_attack_5_debug.png" id="7_iykbq"]
+[ext_resource type="Texture2D" uid="uid://eiawvuuaegp7" path="res://art/thug/thug_attack_6_debug.png" id="8_5jaqc"]
+[ext_resource type="Texture2D" uid="uid://dtbv6eqsj6x6r" path="res://art/thug/thug_attack_7_debug.png" id="9_xhq2n"]
+[ext_resource type="Texture2D" uid="uid://bpo8gdyqwsel3" path="res://art/peasant/peasant_base_debug.png" id="10_fl2gp"]
+[ext_resource type="Texture2D" uid="uid://dw80u1f7wsnpq" path="res://art/peasant/peasant_run_1_debug.png" id="11_1v574"]
+[ext_resource type="Texture2D" uid="uid://bc3hff21j1gr6" path="res://art/peasant/peasant_run_2_debug.png" id="12_i57pp"]
+[ext_resource type="Texture2D" uid="uid://db7f4pjd4k2o0" path="res://art/peasant/peasant_squirm_2_debug.png" id="13_cxtpo"]
+[ext_resource type="Texture2D" uid="uid://w0on3w553xhq" path="res://art/peasant/peasant_squirm_1_debug.png" id="14_hkem3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_agtys"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4gash")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_i7r8b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_eksiu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tkxnh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_3jl2h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_iykbq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_5jaqc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_xhq2n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_4gash")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_fl2gp")
+}],
+"loop": true,
+"name": &"base",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_1v574")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_i57pp")
+}],
+"loop": true,
+"name": &"run",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_cxtpo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_hkem3")
+}],
+"loop": true,
+"name": &"squirm",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_1v574")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_i57pp")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 4.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nxl4w"]
+radius = 6.0
+height = 44.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wtt2r"]
+radius = 6.0
+height = 44.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7wuxq"]
+radius = 128.0
+
+[node name="DebugMob" type="CharacterBody2D" groups=["NPCs"]]
+collision_mask = 1024
+safe_margin = 3.0
+script = ExtResource("1_3i5nh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_agtys")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CapsuleShape2D_nxl4w")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 50.0
+path_postprocessing = 1
+radius = 15.0
+neighbor_distance = 110.0
+time_horizon_obstacles = 1.0
+avoidance_layers = 0
+avoidance_mask = 1024
+
+[node name="SelectionArea" type="Area2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea"]
+visible = false
+shape = SubResource("CapsuleShape2D_wtt2r")
+
+[node name="ScareArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScareArea"]
+visible = false
+shape = SubResource("CircleShape2D_7wuxq")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -24.0
+offset_top = -48.0
+offset_right = 24.0
+offset_bottom = -32.0
+show_percentage = false
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

@@ -67,6 +67,8 @@ offset_left = -64.0
 offset_top = 64.0
 offset_right = 64.0
 offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Right!"
 
 [connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]

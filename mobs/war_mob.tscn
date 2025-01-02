@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://b5t2bc17hpdlc"]
 
 [ext_resource type="Script" path="res://mobs/WarMob.cs" id="1_3u1tg"]
-[ext_resource type="Texture2D" uid="uid://bpot8awhdn6ph" path="res://art/enemyFlyingAlt_2.png" id="2_mpvva"]
-[ext_resource type="Texture2D" uid="uid://yqglrrsx7j1f" path="res://art/enemyFlyingAlt_1.png" id="3_onkw5"]
-[ext_resource type="Texture2D" uid="uid://bu4221t7qpa7d" path="res://art/enemyWalking_1.png" id="4_4d0fh"]
-[ext_resource type="Texture2D" uid="uid://booij5t7h4efb" path="res://art/enemyWalking_2.png" id="5_x76qu"]
+[ext_resource type="Texture2D" uid="uid://bpot8awhdn6ph" path="res://art/placeholder_art/enemyFlyingAlt_2.png" id="2_mpvva"]
+[ext_resource type="Texture2D" uid="uid://yqglrrsx7j1f" path="res://art/placeholder_art/enemyFlyingAlt_1.png" id="3_onkw5"]
+[ext_resource type="Texture2D" uid="uid://bu4221t7qpa7d" path="res://art/placeholder_art/enemyWalking_1.png" id="4_4d0fh"]
+[ext_resource type="Texture2D" uid="uid://booij5t7h4efb" path="res://art/placeholder_art/enemyWalking_2.png" id="5_x76qu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_agtys"]
 animations = [{

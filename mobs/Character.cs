@@ -112,6 +112,7 @@ namespace BridgeTroll
         public void EnterNoneState()
         {
             ExitCurrentState();
+            animated_sprite_.Play("base");
             state = CharacterState.NONE;
             UniqueEnterNoneState();
         }
@@ -239,6 +240,7 @@ namespace BridgeTroll
         public void EnterGrapplingState()
         {
             ExitCurrentState();
+            animated_sprite_.Play("grapple");
             state = CharacterState.GRAPPLING;
             UniqueEnterGrapplingState();
         }
@@ -269,6 +271,7 @@ namespace BridgeTroll
         public void EnterSquirmingState()
         {
             ExitCurrentState();
+            animated_sprite_.Play("squirm");
             state = CharacterState.SQUIRMING;
             UniqueEnterSquirmingState();
         }

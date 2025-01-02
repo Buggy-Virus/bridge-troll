@@ -19,7 +19,7 @@ namespace BridgeTroll
 
         public Block()
         {
-            type = Type.Clear;
+            type = Type.None;
         }
     }
 }

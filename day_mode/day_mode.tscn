@@ -9,13 +9,13 @@
 
 [sub_resource type="Curve2D" id="Curve2D_rebq8"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1152, 0, 0, 0, 0, 0, 1152, 640)
+"points": PackedVector2Array(0, 0, 0, 0, 1152, 320.211, 0, 0, 0, 0, 1152, 640)
 }
 point_count = 2
 
 [sub_resource type="Curve2D" id="Curve2D_pdqab"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 640)
+"points": PackedVector2Array(0, 0, 0, 0, 0, 320, 0, 0, 0, 0, 0, 640)
 }
 point_count = 2
 
@@ -25,16 +25,19 @@ debug_mob_packed_scene = ExtResource("2_e76ly")
 war_mob_packed_scene = ExtResource("3_a8al2")
 
 [node name="RightSide" type="Path2D" parent="."]
+position = Vector2(768, 16)
+scale = Vector2(1, 0.974359)
 curve = SubResource("Curve2D_rebq8")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="RightSide"]
-position = Vector2(1152, 0)
+position = Vector2(1152, 320.211)
 rotation = 1.5708
 
 [node name="LeftSide" type="Path2D" parent="."]
 curve = SubResource("Curve2D_pdqab")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="LeftSide"]
+position = Vector2(0, 320)
 rotation = 1.5708
 
 [node name="SpawnTimer" type="Timer" parent="."]

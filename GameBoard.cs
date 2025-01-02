@@ -7,10 +7,12 @@ namespace BridgeTroll
     public partial class GameBoard : Node2D
     {
         // TODO: these shouldn't be hard coded
-        private int height = 10;
-        private int width = 18;
-        private Vector2I clear_tile = new(17, 8);
-        private Vector2I occupied_tile = new(18, 6);
+        private int height = 68;
+        private int width = 120;
+        private int bridge_start_row = 20;
+        private int bridge_end_row = 40;
+        private Vector2I clear_tile = new(0, 8);
+        private Vector2I occupied_tile = new(0, 9);
 
         public TileMapLayer mob_navigation_layer;
         public TileMapLayer build_mode_grid;
@@ -53,8 +55,14 @@ namespace BridgeTroll
                 for (int j = 0; j < height; j++)
                 {
                     block_map[i, j] = new Block();
+                    if (j >= bridge_start_row && j < bridge_end_row)
+                    {
+                        block_map[i, j].type = Block.Type.Clear;
+                    }
                 }
             }
+
+            UpdateNavigationLayer();
         }
     }
 }
