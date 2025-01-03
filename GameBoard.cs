@@ -32,6 +32,18 @@ namespace BridgeTroll
             }
         }
 
+        public void UpdateNavigationCell(Vector2I cell)
+        {
+            if (block_map[cell.X, cell.Y].type == Block.Type.Clear)
+            {
+                mob_navigation_layer.SetCell(cell, 0, clear_tile, 0);
+            }
+            else
+            {
+                mob_navigation_layer.SetCell(cell, 0, occupied_tile, 0);
+            }
+        }
+
         public void UpdateNavigationLayer()
         {
             for (int x = 0; x < width; x++)

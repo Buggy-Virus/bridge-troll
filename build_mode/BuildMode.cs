@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BridgeTroll;
 using Godot;
 
@@ -6,100 +7,123 @@ namespace BridgeTroll
 {
     public partial class BuildMode : Node2D
     {
-        [Export]
-        public PackedScene building_1 { get; set; }
+        public enum State {
+            NONE,
+            PLACING_BUILDING,
+        }
 
         [Export]
-        public PackedScene building_2 { get; set; }
+        public PackedScene debug_game_board_scene { get; set; }
 
         [Export]
-        public PackedScene debug_game_board { get; set; }
+        public PackedScene debug_scene { get; set; }
+        [Export]
+        public PackedScene hut_scene { get; set; }
+        [Export]
+        public PackedScene tent_scene { get; set; }
+        [Export]
+        public PackedScene water_barrel_scene { get; set; }
 
-        private PackedScene _selected_building;
+        private Dictionary<Building.Type, PackedScene> building_to_scene_map_ = new();
 
         [Export]
-        public bool build_mode = false;
-
+        public State current_state { get; set; } = State.NONE;
         [Export]
-        public int building_num = 0;
+        public Building.Type selected_building_type { get; set; } = Building.Type.DEBUG;
 
         private GameBoard game_board;
         private TileMapLayer build_mode_grid;
+        private Vector2 tile_size_;
         private Node2D buildings_parent;
 
-        private Sprite2D _highlight_tile;
+        private Sprite2D highlight_tile_;
+        private bool mouse_in_area_;
 
-        private bool _mouse_in_area;
-        private Area2D _current_building_cursor;
-        private Sprite2D _current_building_cursor_sprite;
-        private Vector2 current_building_collision_size_;
-        private Vector2I _current_building_tile_size;
-        private Vector2 _tile_size;
+        private Building building_cursor_;
+        private bool can_place_building_ = true;
 
-        private bool _can_place = true;
+        public void EnterNoneState() {
+            ExitCurrentState();
+            current_state = State.NONE;
+        }
 
-        private void HighlightTileOnMouseOver()
-        {
-            if (!build_mode && _mouse_in_area)
-            {
-                Vector2 moused_over_tile_position = build_mode_grid.MapToLocal(
+        private void NoneState() {
+            if (mouse_in_area_) {
+                highlight_tile_.Visible = true;
+                highlight_tile_.Position = build_mode_grid.MapToLocal(
                     build_mode_grid.LocalToMap(GetLocalMousePosition())
                 );
-
-                _highlight_tile.Position = moused_over_tile_position;
+            } else {
+                highlight_tile_.Visible = false;
             }
         }
 
-        private Vector2 GetBuildingPosition()
-        {
-            Vector2 mouse_local_position = GetLocalMousePosition();
-            Vector2 moused_over_tile_position = build_mode_grid.MapToLocal(
-                build_mode_grid.LocalToMap(mouse_local_position)
-            );
+        private void ExitNoneState() {}
 
-            Vector2 building_position = moused_over_tile_position;
-            building_position.X -=
-                (-1 * (_current_building_tile_size.X % 2) + 1)
-                * Math.Sign(moused_over_tile_position.X - mouse_local_position.X)
-                * _tile_size.X
-                / 2;
-            building_position.Y -=
-                (-1 * (_current_building_tile_size.Y % 2) + 1)
-                * Math.Sign(moused_over_tile_position.Y - mouse_local_position.Y)
-                * _tile_size.Y
-                / 2;
+        public void EnterPlaceingBuildingState() {
+            ExitCurrentState();
+            current_state = State.PLACING_BUILDING;
 
-            return building_position;
+            building_cursor_ = building_to_scene_map_[selected_building_type].Instantiate<Building>();
+                GetNode<CanvasLayer>("CanvasLayer").AddChild(building_cursor_);
+            building_cursor_.MakeFreeCursor();
         }
 
-        private Vector2I GetBuildingTopLeftIndex()
-        {
-            Vector2 top_left_position =
-                _current_building_cursor.Position - (current_building_collision_size_ / 2);
-            return (Vector2I)(top_left_position / _tile_size);
-        }
-
-        private void BlockOutFootprint()
-        {
-            Vector2I starting_cell = GetBuildingTopLeftIndex();
-            GD.Print("Starting Cell", starting_cell);
-            GD.Print("Tile Size", _current_building_tile_size);
-            for (int x = starting_cell.X; x < starting_cell.X + _current_building_tile_size.X; x++)
+        private void PlacingBuildingInput(InputEvent @event) {
+            if (@event.IsActionPressed("left_click") && can_place_building_)
             {
-                for (
-                    int y = starting_cell.Y;
-                    y < starting_cell.Y + _current_building_tile_size.Y;
-                    y++
-                )
-                {
-                    GD.Print("Blocking: ", x, ", ", y);
-                    game_board.block_map[x, y].type = Block.Type.Occupied;
-                    game_board.UpdateNavigationCell(x, y);
+                Building placed_building = building_cursor_;
+                placed_building.MakePlacedBuilding();
+                buildings_parent.AddChild(placed_building);
+
+                foreach (Vector2I footprint_cell in building_cursor_.footprint_tilemap.GetUsedCells()) {
+                    Vector2I game_board_cell = building_cursor_.game_board_cell + footprint_cell;
+                    game_board.block_map[game_board_cell.X, game_board_cell.Y].type = Block.Type.Occupied;
+                }
+
+                building_cursor_ = null;
+                EnterNoneState();
+            }
+        }
+
+        private void PlacingBuildingState() {
+            Vector2 mouse_local_position = GetLocalMousePosition();
+            Vector2I current_tile_cell = build_mode_grid.LocalToMap(mouse_local_position);
+            Vector2 current_tile_position = build_mode_grid.MapToLocal(current_tile_cell);
+
+            Vector2I footprint_tile_size_is_even = new(building_cursor_.footprint_tile_size.X % 2 + 1, building_cursor_.footprint_tile_size.Y % 2 + 1);
+            Vector2I current_tile_quandrant = new(Math.Sign(current_tile_position.X - mouse_local_position.X), Math.Sign(current_tile_position.Y - mouse_local_position.Y));
+            Vector2 cursor_building_offset_position = -1 * footprint_tile_size_is_even * current_tile_quandrant * tile_size_ / 2;
+
+            building_cursor_.SetOffsetPosition(cursor_building_offset_position);
+
+            building_cursor_.game_board_cell = build_mode_grid.LocalToMap(building_cursor_.Position);
+            building_cursor_.MakeFreeCursor();
+            can_place_building_ = true;
+            foreach (Vector2I footprint_cell in building_cursor_.footprint_tilemap.GetUsedCells()) {
+                Vector2I game_board_cell = building_cursor_.game_board_cell + footprint_cell;
+                if (game_board.block_map[game_board_cell.X, game_board_cell.Y].type != Block.Type.Clear) {
+                    can_place_building_ = false;
+                    building_cursor_.MakeBlockedCursor();
+                    break;
                 }
             }
         }
 
-        // Called when the node enters the scene tree for the first time.
+        private void ExitPlacingBuildingState() {
+            if (building_cursor_ is not null ) {
+                building_cursor_.QueueFree();
+            }
+        }
+
+        private void ExitCurrentState() {
+            if (current_state == State.NONE) {
+                ExitNoneState();
+            } else if (current_state == State.PLACING_BUILDING) {
+                ExitPlacingBuildingState();
+            }
+        }
+
         public override void _Ready()
         {
             Node parent = GetParent();
@@ -111,122 +135,51 @@ namespace BridgeTroll
             }
             else
             {
-                game_board = debug_game_board.Instantiate<GameBoard>();
+                game_board = debug_game_board_scene.Instantiate<GameBoard>();
                 AddChild(game_board);
                 build_mode_grid = game_board.build_mode_grid;
                 buildings_parent = game_board.build_mode_grid;
             }
 
-            _highlight_tile = GetNode<Sprite2D>("HighlightTile");
+            highlight_tile_ = GetNode<Sprite2D>("HighlightTile");
 
-            _tile_size = build_mode_grid.TileSet.TileSize;
+            tile_size_ = build_mode_grid.TileSet.TileSize;
+            highlight_tile_.Visible = false;
 
-            if (build_mode)
-            {
-                if (building_num == 0)
-                {
-                    _selected_building = building_1;
-                }
-                else
-                {
-                    _selected_building = building_2;
-                }
-                _current_building_cursor = _selected_building.Instantiate<Area2D>();
-                GetNode<CanvasLayer>("CanvasLayer").AddChild(_current_building_cursor);
+            building_to_scene_map_[Building.Type.DEBUG] = debug_scene;
+            building_to_scene_map_[Building.Type.HUT] = hut_scene;
+            building_to_scene_map_[Building.Type.TENT] = tent_scene;
+            building_to_scene_map_[Building.Type.WATER_BARREL] = water_barrel_scene;
 
-                _current_building_cursor_sprite = _current_building_cursor.GetNode<Sprite2D>(
-                    "Sprite2D"
-                );
-                _current_building_cursor_sprite.Modulate = new(0.7f, 1, 0.7f, 1);
-                _current_building_cursor.TopLevel = true;
-
-                current_building_collision_size_ = _current_building_cursor
-                    .GetNode<CollisionShape2D>("CollisionShape2D")
-                    .Shape.GetRect()
-                    .Size;
-
-                _current_building_cursor.GetNode<RigidBody2D>("RigidBody2D").QueueFree();
-
-                _current_building_tile_size.X = (int)(
-                    current_building_collision_size_.X / _tile_size.X
-                );
-                _current_building_tile_size.Y = (int)(
-                    current_building_collision_size_.Y / _tile_size.Y
-                );
-
-                Vector2 altered_collision_size = current_building_collision_size_;
-                altered_collision_size -= new Vector2(2, 2);
-
-                // Shape2D altered_collision_shape = new RectangleShape2D();
-                (
-                    (RectangleShape2D)
-                        _current_building_cursor.GetNode<CollisionShape2D>("CollisionShape2D").Shape
-                ).Size = altered_collision_size;
-            }
-            else
-            {
-                _highlight_tile.Visible = false;
-            }
+            EnterNoneState();
         }
 
         public override void _Process(double delta)
         {
-            if (build_mode)
+            if (current_state == State.NONE)
             {
-                _current_building_cursor.Position = GetBuildingPosition();
-                _current_building_cursor_sprite.Modulate = new(0.7f, 1, 0.7f, 1);
-                _can_place = true;
-                foreach (Area2D overlapping_area in _current_building_cursor.GetOverlappingAreas())
-                {
-                    if (overlapping_area.IsInGroup("Buildings"))
-                    {
-                        _can_place = false;
-                        _current_building_cursor_sprite.Modulate = new(1, 0.7f, 0.7f, 1);
-                        break;
-                    }
-                }
+                NoneState();
             }
-            else
-            {
-                HighlightTileOnMouseOver();
+            else if (current_state == State.PLACING_BUILDING) {
+                PlacingBuildingState();
             }
         }
 
         public override void _Input(InputEvent @event)
         {
-            if (@event.IsActionPressed("left_click") && build_mode && _can_place)
-            {
-                Area2D placed_building = _selected_building.Instantiate<Area2D>();
-                placed_building.Position = GetBuildingPosition();
-                BlockOutFootprint();
-                buildings_parent.AddChild(placed_building);
+            if (current_state == State.PLACING_BUILDING) {
+                PlacingBuildingInput(@event);
             }
         }
 
         public void _on_build_area_mouse_entered()
         {
-            _mouse_in_area = true;
-
-            if (build_mode)
-            {
-                _current_building_cursor.Visible = true;
-            }
-            else
-            {
-                _highlight_tile.Visible = true;
-            }
+            mouse_in_area_ = true;
         }
 
         public void _on_build_area_mouse_exited()
         {
-            if (build_mode)
-            {
-                _current_building_cursor.Visible = false;
-            }
-            else
-            {
-                _highlight_tile.Visible = false;
-            }
+            mouse_in_area_ = false;
         }
     }
 }

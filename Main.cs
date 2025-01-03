@@ -23,7 +23,6 @@ namespace BridgeTroll
         private GameState active_state_;
         private Node active_mode_;
 
-        // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
             game_board = GetNode<GameBoard>("GameBoard");
