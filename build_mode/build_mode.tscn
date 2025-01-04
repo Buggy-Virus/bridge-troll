@@ -1,34 +1,31 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfd0o7j0yq4ep"]
+[gd_scene load_steps=10 format=3 uid="uid://bfd0o7j0yq4ep"]
 
 [ext_resource type="Script" path="res://build_mode/BuildMode.cs" id="1_xh8lw"]
 [ext_resource type="TileSet" uid="uid://ucduvbo452lx" path="res://tile_sets/placerholder.tres" id="2_3fxb7"]
-[ext_resource type="PackedScene" uid="uid://bq1gex17remo4" path="res://buildings/hut.tscn" id="2_i3ic6"]
-[ext_resource type="PackedScene" uid="uid://jx0iiur2auyg" path="res://buildings/tent.tscn" id="3_wy63d"]
+[ext_resource type="PackedScene" uid="uid://cb152qd76gluq" path="res://buildings/hut.tscn" id="2_i3ic6"]
+[ext_resource type="PackedScene" uid="uid://pk1x0grhf7u6" path="res://buildings/debug_building.tscn" id="3_g0qln"]
+[ext_resource type="PackedScene" uid="uid://b2tbcbutv6cpk" path="res://buildings/tent.tscn" id="3_wy63d"]
 [ext_resource type="Texture2D" uid="uid://b1ojpho1dm7t" path="res://art/placeholder_art/tileBlue_03.png" id="3_xhbgs"]
 [ext_resource type="PackedScene" uid="uid://uci1883me6d" path="res://game_board.tscn" id="4_4e48y"]
+[ext_resource type="PackedScene" uid="uid://bxwbfvi5pyyq1" path="res://buildings/water_barrel.tscn" id="6_iox7t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hmhww"]
 size = Vector2(1920, 1080)
 
 [node name="BuildMode" type="Node2D"]
 script = ExtResource("1_xh8lw")
-building_1 = ExtResource("2_i3ic6")
-building_2 = ExtResource("3_wy63d")
-debug_game_board = ExtResource("4_4e48y")
-build_mode = true
-building_num = 1
+debug_game_board_scene = ExtResource("4_4e48y")
+debug_scene = ExtResource("3_g0qln")
+hut_scene = ExtResource("2_i3ic6")
+tent_scene = ExtResource("3_wy63d")
+water_barrel_scene = ExtResource("6_iox7t")
+selected_building_type = 6
 
 [node name="PlacingGrid" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_3fxb7")
 
 [node name="BuiltGrid" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_3fxb7")
-
-[node name="HighlightTile" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(1, 1, 0, 0.521569)
-position = Vector2(96, 96)
-texture = ExtResource("3_xhbgs")
 
 [node name="BuildArea" type="Area2D" parent="."]
 
@@ -38,6 +35,13 @@ shape = SubResource("RectangleShape2D_hmhww")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HighlightTile" type="Sprite2D" parent="CanvasLayer"]
+visible = false
+modulate = Color(1, 1, 0, 0.521569)
+position = Vector2(72, 72)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_xhbgs")
 
 [connection signal="area_entered" from="BuildArea" to="." method="_on_build_area_area_entered"]
 [connection signal="area_exited" from="BuildArea" to="." method="_on_build_area_area_exited"]

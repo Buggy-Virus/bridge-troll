@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cdfalbhpmq4l7"]
+[gd_scene load_steps=22 format=3 uid="uid://cdfalbhpmq4l7"]
 
 [ext_resource type="Script" path="res://troll/Troll.cs" id="1_oiu71"]
 [ext_resource type="PackedScene" uid="uid://c2bop8w8qjvwg" path="res://troll/reward_floater.tscn" id="2_4y5ug"]
@@ -85,7 +85,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 8.0
+"speed": 11.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -96,15 +96,21 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 6.0
+"speed": 9.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5mtuo"]
-radius = 24.0
-height = 80.0
+radius = 16.0
+height = 74.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ffcbf"]
 radius = 128.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y5vpa"]
+bg_color = Color(0.913725, 0.0862745, 0.0980392, 0.996078)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e420f"]
+bg_color = Color(0.214626, 0.779329, 3.85046e-07, 1)
 
 [node name="Troll" type="CharacterBody2D" groups=["Scary_Characters"]]
 collision_layer = 0
@@ -113,49 +119,52 @@ script = ExtResource("1_oiu71")
 reward_floater_packed_scene = ExtResource("2_4y5ug")
 metadata/_edit_group_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-11, 0)
-scale = Vector2(2, 2)
-sprite_frames = SubResource("SpriteFrames_bqjeo")
-animation = &"grapple"
-frame_progress = 0.151863
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 3)
-shape = SubResource("CapsuleShape2D_5mtuo")
-
-[node name="SelectionArea" type="Area2D" parent="." groups=["Scary_Characters"]]
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea"]
-position = Vector2(0, 3)
-shape = SubResource("CapsuleShape2D_5mtuo")
-
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 5.0
 debug_enabled = true
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-11, -32)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_bqjeo")
+animation = &"run"
+frame_progress = 0.046988
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -29)
+shape = SubResource("CapsuleShape2D_5mtuo")
+
+[node name="SelectionArea" type="Area2D" parent="." groups=["Scary_Characters"]]
+position = Vector2(0, -29)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea"]
+shape = SubResource("CapsuleShape2D_5mtuo")
+
 [node name="DecisionPopup" parent="." instance=ExtResource("4_wfwtu")]
-offset_left = -64.0
-offset_top = -129.0
-offset_right = -64.0
-offset_bottom = -129.0
+offset_left = 0.0
+offset_top = -161.0
+offset_right = 0.0
+offset_bottom = -161.0
 size_flags_horizontal = 4
 
 [node name="ScareArea" type="Area2D" parent="."]
+position = Vector2(0, -32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScareArea"]
 shape = SubResource("CircleShape2D_ffcbf")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -40.0
-offset_top = -56.0
+offset_top = -88.0
 offset_right = 40.0
-offset_bottom = -40.0
+offset_bottom = -72.0
+theme_override_styles/background = SubResource("StyleBoxFlat_y5vpa")
+theme_override_styles/fill = SubResource("StyleBoxFlat_e420f")
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
 [node name="FloaterParent" type="Node2D" parent="."]
-position = Vector2(0, -64)
+position = Vector2(0, -96)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -3,23 +3,42 @@
 [ext_resource type="Script" path="res://troll/DecisionPopup.cs" id="1_nskm2"]
 [ext_resource type="PackedScene" uid="uid://pr45n8hmam31" path="res://troll/decision_option.tscn" id="2_mm83n"]
 
-[node name="DecisionPopup" type="Panel"]
-anchors_preset = -1
-anchor_right = 0.111
-anchor_bottom = 0.2
-offset_right = -127.872
-offset_bottom = -128.0
+[node name="DecisionPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -40.0
+offset_top = -24.0
+offset_right = 40.0
+offset_bottom = 88.0
 script = ExtResource("1_nskm2")
 option_label_packed_scene = ExtResource("2_mm83n")
 
 [node name="OfferedPaymentLabel" type="Label" parent="."]
-layout_mode = 0
-offset_right = 128.0
-offset_bottom = 128.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.214
+anchor_right = 0.5
+anchor_bottom = 0.214
+offset_left = -64.0
+offset_top = -15.968
+offset_right = 64.0
+offset_bottom = 8.032
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.820787, 0.613333, 3.85046e-07, 1)
 text = "DEBUG"
+horizontal_alignment = 1
 
 [node name="OptionLabels" type="Control" parent="."]
-anchors_preset = 0
-offset_top = 95.0
-offset_right = 64.0
-offset_bottom = 127.0
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.214
+anchor_right = 0.5
+anchor_bottom = 0.214
+offset_left = -40.0
+offset_top = -7.968
+offset_right = 40.0
+offset_bottom = 8.032
+grow_horizontal = 2
+grow_vertical = 2

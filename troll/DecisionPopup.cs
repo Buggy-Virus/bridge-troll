@@ -5,7 +5,7 @@ using Godot;
 
 namespace BridgeTroll
 {
-    public partial class DecisionPopup : Panel
+    public partial class DecisionPopup : Control
     {
         [Export]
         public PackedScene option_label_packed_scene;
@@ -21,7 +21,7 @@ namespace BridgeTroll
             }
 
             float position_offset = 20f;
-            Vector2 last_position = Position;
+            Vector2 last_position = option_labels_parent_.Position;
             foreach (var option in victim_options)
             {
                 Label option_label = option_label_packed_scene.Instantiate<Label>();
@@ -33,8 +33,9 @@ namespace BridgeTroll
                 );
                 string option_input_text =
                     input_events.Count > 0 ? input_events[0].AsText() : "NONE";
+                string option_input_simple_text = option_input_text.Substring(0, 1);
 
-                option_label.Text = $"{option_input_text} {option_text}";
+                option_label.Text = $"{option_input_simple_text}: {option_text}";
 
                 option_label.Position = new(last_position.X, last_position.Y + position_offset);
                 last_position = option_label.Position;
@@ -43,7 +44,7 @@ namespace BridgeTroll
 
         public void UpdateOfferedPayment(int payment)
         {
-            offered_payment_label_.Text = payment.ToString();
+            offered_payment_label_.Text = $"Payment: {payment}";
         }
 
         // Called when the node enters the scene tree for the first time.

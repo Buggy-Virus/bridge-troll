@@ -1,6 +1,5 @@
-[gd_scene load_steps=19 format=3 uid="uid://dfodgfat1lr07"]
+[gd_scene load_steps=20 format=3 uid="uid://dfodgfat1lr07"]
 
-[ext_resource type="Script" path="res://mobs/Peasant.cs" id="1_i4c04"]
 [ext_resource type="Texture2D" uid="uid://c47lwy0q6cfun" path="res://art/thug/thug_base_debug.png" id="2_sa845"]
 [ext_resource type="Texture2D" uid="uid://j6x7dk3prrna" path="res://art/thug/thug_attack_1_debug.png" id="3_bmnq2"]
 [ext_resource type="Texture2D" uid="uid://4etruh4k83nn" path="res://art/thug/thug_attack_2_debug.png" id="4_gluhw"]
@@ -47,7 +46,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -100,22 +99,18 @@ radius = 6.0
 height = 44.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7wuxq"]
-radius = 128.0
+radius = 71.1126
 
-[node name="DebugMob" type="CharacterBody2D" groups=["NPCs"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1mipw"]
+bg_color = Color(0.913921, 0.0846582, 0.0993158, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a51lp"]
+bg_color = Color(0.214626, 0.779329, 3.85046e-07, 1)
+
+[node name="Thug" type="CharacterBody2D" groups=["NPCs"]]
 collision_mask = 1024
 safe_margin = 3.0
-script = ExtResource("1_i4c04")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(2, 2)
-sprite_frames = SubResource("SpriteFrames_agtys")
-animation = &"base"
 script = ExtResource("14_xlvhr")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("CapsuleShape2D_nxl4w")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_max_distance = 50.0
@@ -126,24 +121,39 @@ time_horizon_obstacles = 1.0
 avoidance_layers = 0
 avoidance_mask = 1024
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -20)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_agtys")
+animation = &"attack"
+frame = 8
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -20)
+shape = SubResource("CapsuleShape2D_nxl4w")
+
 [node name="SelectionArea" type="Area2D" parent="."]
+position = Vector2(1, -20)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea"]
-visible = false
 shape = SubResource("CapsuleShape2D_wtt2r")
 
 [node name="ScareArea" type="Area2D" parent="."]
+position = Vector2(1, -20)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScareArea"]
-visible = false
 shape = SubResource("CircleShape2D_7wuxq")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -24.0
-offset_top = -48.0
+offset_top = -56.0
 offset_right = 24.0
-offset_bottom = -32.0
+offset_bottom = -48.0
+theme_override_styles/background = SubResource("StyleBoxFlat_1mipw")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a51lp")
 show_percentage = false
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

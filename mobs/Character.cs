@@ -155,6 +155,7 @@ namespace BridgeTroll
             if (Position.DistanceTo(target_position) < navigation_agent_.TargetDesiredDistance)
             {
                 EnterNoneState();
+                return;
             }
             MoveTowardsTarget(walk_speed);
             UniqueWalkingState();
@@ -311,7 +312,7 @@ namespace BridgeTroll
                 if (
                     area.IsInGroup("Scary_Characters")
                     && ((Character)area.GetParent()).scary > courage
-                    && ((Character)area.GetParent()).Velocity != new Vector2(0, 0)
+                    && ((Character)area.GetParent()).Velocity.Length() > 0
                 )
                 {
                     scary_character = (Character)area.GetParent();
@@ -338,8 +339,10 @@ namespace BridgeTroll
             {
                 EnterNoneState();
             }
-            Velocity = -Position.DirectionTo(scary_character.Position) * run_speed;
-            MoveAndSlide();
+            navigation_agent_.TargetPosition =
+                Position
+                - 2 * (necessary_away_from_scary * Position.DirectionTo(scary_character.Position));
+            MoveTowardsTarget(run_speed);
             UniqueFleeingState();
         }
 
@@ -375,6 +378,16 @@ namespace BridgeTroll
         {
             ExitCurrentState();
             state = CharacterState.FIGHTING;
+
+            if (Position.DirectionTo(fighting_character.Position).X < 0)
+            {
+                animated_sprite_.FlipH = false;
+            }
+            else
+            {
+                animated_sprite_.FlipH = true;
+            }
+
             UniqueEnterFightingState();
         }
 
@@ -426,12 +439,20 @@ namespace BridgeTroll
         public void MoveTowardsTarget(float speed)
         {
             Velocity = Position.DirectionTo(navigation_agent_.GetNextPathPosition()) * speed;
+            if (Velocity.X < 0)
+            {
+                animated_sprite_.FlipH = false;
+            }
+            else
+            {
+                animated_sprite_.FlipH = true;
+            }
             MoveAndSlide();
         }
 
         public void ExitCurrentState()
         {
-            Velocity = new Vector2(0, 0);
+            Velocity = Vector2.Zero;
             animated_sprite_.Stop();
             if (state == CharacterState.NONE)
             {
@@ -510,17 +531,6 @@ namespace BridgeTroll
             else if (state == CharacterState.FIGHTING)
             {
                 FightingState();
-            }
-
-            {
-                if (Velocity.X < 0)
-                {
-                    animated_sprite_.FlipH = true;
-                }
-                else
-                {
-                    animated_sprite_.FlipH = false;
-                }
             }
         }
     }

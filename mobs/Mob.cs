@@ -4,26 +4,26 @@ using Godot;
 
 namespace BridgeTroll
 {
-    public enum MobType
-    {
-        DEBUG,
-        WAR_MOB,
-        PEASANT,
-        JOGGER,
-        NEERDOWELL,
-        TRADER,
-        THUG,
-        ADVENTURER,
-        PRIEST,
-        BISHOP,
-        MAGE,
-        WIZARD,
-        TRADESMAN,
-        APPRENTICE,
-    }
-
     public partial class Mob : Character
     {
+        public enum Type
+        {
+            DEBUG,
+            WAR_MOB,
+            PEASANT,
+            JOGGER,
+            NEERDOWELL,
+            TRADER,
+            THUG,
+            ADVENTURER,
+            PRIEST,
+            BISHOP,
+            MAGE,
+            WIZARD,
+            TRADESMAN,
+            APPRENTICE,
+        }
+
         public float update_exit_position_threshold = 150f;
         public float exit_threshold = 50f;
 

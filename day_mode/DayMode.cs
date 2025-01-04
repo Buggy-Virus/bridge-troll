@@ -20,27 +20,30 @@ namespace BridgeTroll
     public partial class DayMode : Node2D
     {
         [Export]
-        public PackedScene debug_mob_packed_scene { get; set; }
+        public PackedScene debug_game_board_scene { get; set; }
 
         [Export]
-        public PackedScene war_mob_packed_scene { get; set; }
-        public Dictionary<MobType, float> spawn_probabilities = new()
+        public PackedScene peasant_scene { get; set; }
+
+        [Export]
+        public PackedScene thug_scene { get; set; }
+        public Dictionary<Mob.Type, float> spawn_probabilities = new()
         {
-            { MobType.DEBUG, 0.3f },
-            { MobType.WAR_MOB, 0.3f },
+            { Mob.Type.PEASANT, 0.5f },
+            { Mob.Type.THUG, 0.3f },
         };
-        public Dictionary<MobType, PackedScene> mob_packed_scenes = new();
+        public Dictionary<Mob.Type, PackedScene> mob_packed_scenes = new();
 
         private void BuildMobPackedScenes()
         {
             mob_packed_scenes = new()
             {
-                { MobType.DEBUG, debug_mob_packed_scene },
-                { MobType.WAR_MOB, war_mob_packed_scene },
+                { Mob.Type.PEASANT, peasant_scene },
+                { Mob.Type.THUG, thug_scene },
             };
         }
 
-        private PackedScene GetMobPackedScene(MobType mob_type)
+        private PackedScene GetMobPackedScene(Mob.Type mob_type)
         {
             return mob_packed_scenes[mob_type];
         }
@@ -57,6 +60,14 @@ namespace BridgeTroll
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
+            Node parent = GetParent();
+            if (parent is not Main)
+            {
+                GameBoard game_board = debug_game_board_scene.Instantiate<GameBoard>();
+                AddChild(game_board);
+                MoveChild(game_board, 0);
+            }
+
             troll_ = GetNode<Troll>("Troll");
 
             left_spawn_ = GetNode<PathFollow2D>("LeftSide/PathFollow2D");
@@ -139,7 +150,7 @@ namespace BridgeTroll
             }
         }
 
-        public void SpawnMob(MobType mob_type)
+        public void SpawnMob(Mob.Type mob_type)
         {
             Mob new_mob = GetMobPackedScene(mob_type).Instantiate<Mob>();
             mobs_parent.AddChild(new_mob);

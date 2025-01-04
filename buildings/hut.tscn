@@ -1,27 +1,123 @@
-[gd_scene load_steps=3 format=3 uid="uid://bq1gex17remo4"]
+[gd_scene load_steps=8 format=4 uid="uid://cb152qd76gluq"]
 
 [ext_resource type="Texture2D" uid="uid://buqkbrxmygkd5" path="res://art/buildings/hut_debug.png" id="1_cwxs0"]
+[ext_resource type="Script" path="res://buildings/Building.cs" id="1_ov07l"]
+[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/tiles/tiles_debug.png" id="3_24j3j"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_du7bh"]
-size = Vector2(48, 32)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ch2bl"]
+radius = 96.3328
 
-[node name="PlaceholderBuilding_1" type="Area2D" groups=["Buildings"]]
-top_level = true
-collision_layer = 1024
-collision_mask = 1024
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k2dap"]
+texture = ExtResource("3_24j3j")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+8:8/0 = 0
+5:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+8:9/0 = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_du7bh")
+[sub_resource type="TileSet" id="TileSet_s6jg0"]
+sources/0 = SubResource("TileSetAtlasSource_k2dap")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
-collision_layer = 1024
-collision_mask = 0
-freeze = true
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f4dy5"]
+radius = 28.0
+height = 84.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-shape = SubResource("RectangleShape2D_du7bh")
+[node name="Hut" type="Node2D"]
+script = ExtResource("1_ov07l")
+
+[node name="EffectArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EffectArea"]
+position = Vector2(24, 16)
+shape = SubResource("CircleShape2D_ch2bl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -32)
+position = Vector2(24, -19)
 scale = Vector2(2, 2)
 texture = ExtResource("1_cwxs0")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+visible = false
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_s6jg0")
+
+[node name="SelectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea"]
+position = Vector2(24, -18)
+shape = SubResource("CapsuleShape2D_f4dy5")

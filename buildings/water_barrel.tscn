@@ -1,17 +1,14 @@
-[gd_scene load_steps=8 format=4 uid="uid://pk1x0grhf7u6"]
+[gd_scene load_steps=8 format=3 uid="uid://bxwbfvi5pyyq1"]
 
-[ext_resource type="Script" path="res://buildings/building.cs" id="1_ibbss"]
-[ext_resource type="Texture2D" uid="uid://61yp2qu0wh5e" path="res://art/placeholder_art/icon.svg" id="1_nqwva"]
-[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/tiles/tiles_debug.png" id="2_18uum"]
+[ext_resource type="Script" path="res://buildings/Building.cs" id="1_4ydac"]
+[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/tiles/tiles_debug.png" id="3_xqxtt"]
+[ext_resource type="Texture2D" uid="uid://h1cnvgueynws" path="res://art/buildings/barrel_debug.png" id="3_ybrtb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ch2bl"]
 radius = 96.3328
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oerc2"]
-size = Vector2(64, 64)
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k2dap"]
-texture = ExtResource("2_18uum")
+texture = ExtResource("3_xqxtt")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -96,28 +93,31 @@ texture = ExtResource("2_18uum")
 [sub_resource type="TileSet" id="TileSet_s6jg0"]
 sources/0 = SubResource("TileSetAtlasSource_k2dap")
 
-[node name="BasicBuilding" type="Node2D"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_da2sn"]
+radius = 8.0
+height = 22.0
+
+[node name="WaterBarrel" type="Node2D"]
+script = ExtResource("1_4ydac")
 
 [node name="EffectArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EffectArea"]
-position = Vector2(32, 32)
+position = Vector2(8, 8)
 shape = SubResource("CircleShape2D_ch2bl")
-script = ExtResource("1_ibbss")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("3_ybrtb")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+visible = false
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_s6jg0")
 
 [node name="SelectionArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea"]
-position = Vector2(32, 32)
-shape = SubResource("RectangleShape2D_oerc2")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(32, 32)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_nqwva")
-
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-visible = false
-tile_map_data = PackedByteArray("AAADAAMAAAAAAAAAAAACAAMAAAAAAAAAAAABAAMAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAIAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAADAAIAAAAAAAAAAAADAAEAAAAAAAAAAAACAAEAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAA=")
-tile_set = SubResource("TileSet_s6jg0")
+position = Vector2(8, -1)
+shape = SubResource("CapsuleShape2D_da2sn")

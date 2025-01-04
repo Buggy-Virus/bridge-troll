@@ -33,8 +33,8 @@ namespace BridgeTroll
             walk_speed = 600.0f;
             run_speed = 10000.0f;
 
-            max_hit_points = 100;
-            hit_points = 100;
+            max_hit_points = 15;
+            hit_points = 15;
 
             scary = 10;
 
@@ -164,7 +164,7 @@ namespace BridgeTroll
         {
             victim.options_experienced.Add(VictimOption.ACCEPT);
             AwardGold(victim.offered_payment);
-            AwardExperience(offered_payment / 2);
+            AwardExperience(victim.offered_payment / 2);
             victim.gold -= victim.offered_payment;
             victim.offered_payment = 0;
             victim.finished_transaction = true;

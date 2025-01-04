@@ -1,15 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://bijwo25jcdjvf"]
+[gd_scene load_steps=10 format=3 uid="uid://bijwo25jcdjvf"]
 
 [ext_resource type="Script" path="res://day_mode/DayMode.cs" id="1_pg0c5"]
-[ext_resource type="PackedScene" uid="uid://dbkyk7qievqbx" path="res://mobs/debug_mob.tscn" id="2_e76ly"]
-[ext_resource type="PackedScene" uid="uid://b5t2bc17hpdlc" path="res://mobs/war_mob.tscn" id="3_a8al2"]
+[ext_resource type="PackedScene" uid="uid://uci1883me6d" path="res://game_board.tscn" id="2_qbtt3"]
+[ext_resource type="PackedScene" uid="uid://csjsk2ywyy8ib" path="res://mobs/peasant.tscn" id="3_qro13"]
 [ext_resource type="PackedScene" uid="uid://cacqmoby0cvjn" path="res://day_mode/mouse_area.tscn" id="4_qf3bh"]
+[ext_resource type="PackedScene" uid="uid://dfodgfat1lr07" path="res://mobs/thug.tscn" id="4_xrii0"]
 [ext_resource type="PackedScene" uid="uid://cdfalbhpmq4l7" path="res://troll/troll.tscn" id="5_bgmo4"]
 [ext_resource type="Script" path="res://day_mode/MouseArea.cs" id="5_kthss"]
 
 [sub_resource type="Curve2D" id="Curve2D_rebq8"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1152, 320.211, 0, 0, 0, 0, 1152, 640)
+"points": PackedVector2Array(0, 0, 0, 0, 1920, 328.421, 0, 0, 0, 0, 1920, 656.842)
 }
 point_count = 2
 
@@ -21,16 +22,16 @@ point_count = 2
 
 [node name="DayMode" type="Node2D"]
 script = ExtResource("1_pg0c5")
-debug_mob_packed_scene = ExtResource("2_e76ly")
-war_mob_packed_scene = ExtResource("3_a8al2")
+debug_game_board_scene = ExtResource("2_qbtt3")
+peasant_scene = ExtResource("3_qro13")
+thug_scene = ExtResource("4_xrii0")
 
 [node name="RightSide" type="Path2D" parent="."]
-position = Vector2(768, 16)
 scale = Vector2(1, 0.974359)
 curve = SubResource("Curve2D_rebq8")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="RightSide"]
-position = Vector2(1152, 320.211)
+position = Vector2(1920, 328.421)
 rotation = 1.5708
 
 [node name="LeftSide" type="Path2D" parent="."]
@@ -45,7 +46,7 @@ wait_time = 3.0
 autostart = true
 
 [node name="Troll" parent="." instance=ExtResource("5_bgmo4")]
-position = Vector2(512, 320)
+position = Vector2(664, 448)
 
 [node name="Mobs" type="Node2D" parent="."]
 

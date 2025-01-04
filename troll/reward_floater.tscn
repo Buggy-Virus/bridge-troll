@@ -13,16 +13,16 @@ gravity_scale = 0.0
 script = ExtResource("1_8iili")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -20.0
-offset_top = -7.0
-offset_right = 20.0
-offset_bottom = 7.0
+offset_left = -16.0
+offset_top = -8.0
+offset_right = 24.0
+offset_bottom = 6.0
 theme_override_font_sizes/font_size = 10
 text = "Def"
 horizontal_alignment = 1
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 1.2
 one_shot = true
 autostart = true
 
