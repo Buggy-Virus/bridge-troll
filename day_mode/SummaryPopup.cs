@@ -1,15 +1,15 @@
 using System;
 using Godot;
 
-public partial class PlayerData : Node2D
+public partial class SummaryPopup : Control
 {
-    public string troll_name = "unknown";
-
-    public int total_gol = 0;
-    public int total_experience = 0;
+    public Button ok_button;
 
     // Called when the node enters the scene tree for the first time.
-    public override void _Ready() { }
+    public override void _Ready()
+    {
+        ok_button = GetNode<Button>("VBoxContainer/OkButton");
+    }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta) { }

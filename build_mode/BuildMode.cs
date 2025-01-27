@@ -13,6 +13,11 @@ namespace BridgeTroll
             PLACING_BUILDING,
         }
 
+        private PlayerData player_data_;
+
+        [Export]
+        public PackedScene debug_player_data_scene { get; set; }
+
         [Export]
         public PackedScene debug_game_board_scene { get; set; }
 
@@ -36,8 +41,10 @@ namespace BridgeTroll
         [Export]
         public Building.Type selected_building_type { get; set; } = Building.Type.DEBUG;
 
+        public Button back_button;
+
         private CanvasLayer canvas_layer_;
-        private GameBoard game_board;
+        private GameBoard game_board_;
         private TileMapLayer build_mode_grid;
         private Vector2 tile_size_;
         private Node2D buildings_parent;
@@ -99,7 +106,7 @@ namespace BridgeTroll
                 )
                 {
                     Vector2I game_board_cell = building_cursor_.game_board_cell + footprint_cell;
-                    game_board.UpdateCell(game_board_cell, Block.Type.Occupied);
+                    game_board_.UpdateCell(game_board_cell, Block.Type.Occupied);
                 }
 
                 building_cursor_ = null;
@@ -145,7 +152,7 @@ namespace BridgeTroll
             {
                 Vector2I game_board_cell = building_cursor_.game_board_cell + footprint_cell;
                 if (
-                    game_board.block_map[game_board_cell.X, game_board_cell.Y].type
+                    game_board_.block_map[game_board_cell.X, game_board_cell.Y].type
                     != Block.Type.Clear
                 )
                 {
@@ -181,20 +188,24 @@ namespace BridgeTroll
             Node parent = GetParent();
             if (parent is Main)
             {
-                game_board = parent.GetNode<GameBoard>("GameBoard");
-                build_mode_grid = game_board.build_mode_grid;
-                buildings_parent = game_board.buildings_parent;
+                player_data_ = parent.GetNode<PlayerData>("PlayerData");
+                game_board_ = parent.GetNode<GameBoard>("GameBoard");
+                build_mode_grid = game_board_.build_mode_grid;
+                buildings_parent = game_board_.buildings_parent;
             }
             else
             {
-                game_board = debug_game_board_scene.Instantiate<GameBoard>();
-                AddChild(game_board);
-                build_mode_grid = game_board.build_mode_grid;
-                buildings_parent = game_board.build_mode_grid;
+                player_data_ = debug_player_data_scene.Instantiate<PlayerData>();
+                AddChild(player_data_);
+                game_board_ = debug_game_board_scene.Instantiate<GameBoard>();
+                AddChild(game_board_);
+                build_mode_grid = game_board_.build_mode_grid;
+                buildings_parent = game_board_.build_mode_grid;
             }
 
             canvas_layer_ = GetNode<CanvasLayer>("CanvasLayer");
             highlight_tile_ = GetNode<Sprite2D>("CanvasLayer/HighlightTile");
+            back_button = GetNode<Button>("Control/BackButton");
 
             tile_size_ = build_mode_grid.TileSet.TileSize;
             highlight_tile_.Visible = false;

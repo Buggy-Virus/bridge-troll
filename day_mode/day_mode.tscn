@@ -1,12 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://bijwo25jcdjvf"]
+[gd_scene load_steps=12 format=3 uid="uid://bijwo25jcdjvf"]
 
 [ext_resource type="Script" path="res://day_mode/DayMode.cs" id="1_pg0c5"]
+[ext_resource type="PackedScene" uid="uid://b178bgc5y3pgb" path="res://player_data.tscn" id="2_2bgw3"]
 [ext_resource type="PackedScene" uid="uid://uci1883me6d" path="res://game_board.tscn" id="2_qbtt3"]
 [ext_resource type="PackedScene" uid="uid://csjsk2ywyy8ib" path="res://mobs/peasant.tscn" id="3_qro13"]
 [ext_resource type="PackedScene" uid="uid://cacqmoby0cvjn" path="res://day_mode/mouse_area.tscn" id="4_qf3bh"]
 [ext_resource type="PackedScene" uid="uid://dfodgfat1lr07" path="res://mobs/thug.tscn" id="4_xrii0"]
 [ext_resource type="PackedScene" uid="uid://cdfalbhpmq4l7" path="res://troll/troll.tscn" id="5_bgmo4"]
 [ext_resource type="Script" path="res://day_mode/MouseArea.cs" id="5_kthss"]
+[ext_resource type="PackedScene" uid="uid://bgh2ysna4wufk" path="res://day_mode/summary_popup.tscn" id="8_motl2"]
 
 [sub_resource type="Curve2D" id="Curve2D_rebq8"]
 _data = {
@@ -22,6 +24,7 @@ point_count = 2
 
 [node name="DayMode" type="Node2D"]
 script = ExtResource("1_pg0c5")
+debug_player_data_scene = ExtResource("2_2bgw3")
 debug_game_board_scene = ExtResource("2_qbtt3")
 peasant_scene = ExtResource("3_qro13")
 thug_scene = ExtResource("4_xrii0")
@@ -54,7 +57,13 @@ position = Vector2(664, 448)
 script = ExtResource("5_kthss")
 
 [node name="DayTimer" type="Timer" parent="."]
-wait_time = 240.0
+wait_time = 30.0
 one_shot = true
+
+[node name="SummaryPopup" parent="." instance=ExtResource("8_motl2")]
+offset_left = 960.0
+offset_top = 448.0
+offset_right = 960.0
+offset_bottom = 448.0
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

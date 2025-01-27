@@ -4,15 +4,15 @@ using Godot;
 
 namespace BridgeTroll
 {
-    public partial class NameInput : CanvasLayer
+    public partial class NameInput : Control
     {
         [Signal]
-        public delegate void name_acceptedEventHandler(string name);
+        public delegate void NameAcceptedEventHandler(string name);
 
         public Random random = new();
 
         public LineEdit name_input_;
-        private Button accept_button_;
+        public Button accept_button_;
 
         private string[] _bookend_letters =
         {
@@ -24,15 +24,15 @@ namespace BridgeTroll
             // "M",
             // "N",
             // "P",
-            "Q",
+            // "Q",
             // "S",
             "T",
             // "V",
-            "X",
+            // "X",
             // "Z",
         };
         private string[] _modifying_letters = { "H", "R" };
-        private string[] _vowels = { "E", "O", "U", "Y" };
+        private string[] _vowels = { "E", "O", "U" };
 
         public string name = "";
 
@@ -41,6 +41,8 @@ namespace BridgeTroll
         {
             name_input_ = GetNode<LineEdit>("Panel/LineEdit");
             accept_button_ = GetNode<Button>("Panel/Button");
+
+            accept_button_.Pressed += OnAcceptButtonPressed;
         }
 
         string GetBookendLetter()
@@ -98,11 +100,11 @@ namespace BridgeTroll
             name_input_.Text = name;
         }
 
-        private void _on_button_pressed()
+        private void OnAcceptButtonPressed()
         {
             if (name_input_.Text != "")
             {
-                EmitSignal(SignalName.name_accepted, name_input_.Text);
+                EmitSignal(SignalName.NameAccepted, name_input_.Text);
             }
         }
     }

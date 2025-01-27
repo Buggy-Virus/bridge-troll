@@ -2,10 +2,19 @@
 
 [ext_resource type="Script" path="res://main_menu/NameInput.cs" id="1_lejt3"]
 
-[node name="NameInput" type="CanvasLayer"]
+[node name="NameInput" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_lejt3")
 
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfd0o7j0yq4ep"]
+[gd_scene load_steps=11 format=3 uid="uid://bfd0o7j0yq4ep"]
 
 [ext_resource type="Script" path="res://build_mode/BuildMode.cs" id="1_xh8lw"]
 [ext_resource type="TileSet" uid="uid://ucduvbo452lx" path="res://tile_sets/placerholder.tres" id="2_3fxb7"]
 [ext_resource type="PackedScene" uid="uid://cb152qd76gluq" path="res://buildings/hut.tscn" id="2_i3ic6"]
+[ext_resource type="PackedScene" uid="uid://b178bgc5y3pgb" path="res://player_data.tscn" id="2_rtnm4"]
 [ext_resource type="PackedScene" uid="uid://pk1x0grhf7u6" path="res://buildings/debug_building.tscn" id="3_g0qln"]
 [ext_resource type="PackedScene" uid="uid://b2tbcbutv6cpk" path="res://buildings/tent.tscn" id="3_wy63d"]
 [ext_resource type="Texture2D" uid="uid://b1ojpho1dm7t" path="res://art/placeholder_art/tileBlue_03.png" id="3_xhbgs"]
@@ -14,12 +15,13 @@ size = Vector2(1920, 1080)
 
 [node name="BuildMode" type="Node2D"]
 script = ExtResource("1_xh8lw")
+debug_player_data_scene = ExtResource("2_rtnm4")
 debug_game_board_scene = ExtResource("4_4e48y")
 debug_scene = ExtResource("3_g0qln")
 hut_scene = ExtResource("2_i3ic6")
 tent_scene = ExtResource("3_wy63d")
 water_barrel_scene = ExtResource("6_iox7t")
-selected_building_type = 6
+selected_building_type = 8
 
 [node name="PlacingGrid" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_3fxb7")
@@ -42,6 +44,20 @@ modulate = Color(1, 1, 0, 0.521569)
 position = Vector2(72, 72)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_xhbgs")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BackButton" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 1728.0
+offset_top = 1016.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+text = "Back"
 
 [connection signal="area_entered" from="BuildArea" to="." method="_on_build_area_area_entered"]
 [connection signal="area_exited" from="BuildArea" to="." method="_on_build_area_area_exited"]

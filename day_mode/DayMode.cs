@@ -19,6 +19,14 @@ namespace BridgeTroll
 
     public partial class DayMode : Node2D
     {
+        [Signal]
+        public delegate void DayEndedEventHandler();
+
+        private PlayerData player_data_;
+
+        [Export]
+        public PackedScene debug_player_data_scene { get; set; }
+
         [Export]
         public PackedScene debug_game_board_scene { get; set; }
 
@@ -57,6 +65,11 @@ namespace BridgeTroll
 
         private MouseArea mouse_area_;
 
+        private Timer spawn_timer_;
+        private Timer day_timer_;
+
+        private SummaryPopup summary_popup_;
+
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
@@ -74,12 +87,49 @@ namespace BridgeTroll
             right_spawn_ = GetNode<PathFollow2D>("RightSide/PathFollow2D");
             mobs_parent = GetNode<Node2D>("Mobs");
             mouse_area_ = GetNode<MouseArea>("MouseArea");
+            spawn_timer_ = GetNode<Timer>("SpawnTimer");
+            day_timer_ = GetNode<Timer>("DayTimer");
+            summary_popup_ = GetNode<SummaryPopup>("SummaryPopup");
+
+            day_timer_.Timeout += OnDayTimerTimeout;
+            summary_popup_.ok_button.Pressed += OnSummaryPopupOkButtonPressed;
+
+            CloseSummaryPopup();
 
             BuildMobPackedScenes();
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.
         public override void _Process(double delta) { }
+
+        public void BeginDay()
+        {
+            CloseSummaryPopup();
+            spawn_timer_.Start();
+            day_timer_.Start();
+        }
+
+        public void EndDay()
+        {
+            foreach (Node2D mob in mobs_parent.GetChildren())
+            {
+                mob.QueueFree();
+            }
+
+            EmitSignal(SignalName.DayEnded);
+        }
+
+        private void OpenSummaryPopup()
+        {
+            summary_popup_.Visible = true;
+            summary_popup_.SetProcessInput(true);
+        }
+
+        private void CloseSummaryPopup()
+        {
+            summary_popup_.Visible = false;
+            summary_popup_.SetProcessInput(false);
+        }
 
         private bool PressedValidAction(InputEvent @event, VictimOption option)
         {
@@ -181,6 +231,17 @@ namespace BridgeTroll
                     SpawnMob(spawn_rate.Key);
                 }
             }
+        }
+
+        private void OnDayTimerTimeout()
+        {
+            spawn_timer_.Stop();
+            OpenSummaryPopup();
+        }
+
+        private void OnSummaryPopupOkButtonPressed()
+        {
+            EndDay();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace BridgeTroll
         private MainMenu main_menu_;
         private BuildMode build_mode_;
         private DayMode day_mode_;
+        private NightMode night_mode_;
 
         private GameState active_state_;
         private Node active_mode_;
@@ -29,11 +30,30 @@ namespace BridgeTroll
             player_data = GetNode<PlayerData>("PlayerData");
             main_menu_ = GetNode<MainMenu>("MainMenu");
             day_mode_ = GetNode<DayMode>("DayMode");
+            night_mode_ = GetNode<NightMode>("NightMode");
             build_mode_ = GetNode<BuildMode>("BuildMode");
             DisableNode2D(day_mode_);
+            DisableNode2D(night_mode_);
             DisableNode2D(build_mode_);
 
+            main_menu_.NewGameStarted += OnNewGameStarted;
+            day_mode_.DayEnded += OnDayEnded;
+            night_mode_.next_day_button.Pressed += EnableDayMode;
+            night_mode_.build_mode_button.Pressed += EnableBuildMode;
+            build_mode_.back_button.Pressed += EnableNightMode;
+
             EnableMainMenu();
+        }
+
+        private void OnNewGameStarted(string new_game_name)
+        {
+            player_data.troll_name = new_game_name;
+            EnableDayMode();
+        }
+
+        void OnDayEnded()
+        {
+            EnableNightMode();
         }
 
         private void DisableMode(GameState game_state)
@@ -86,6 +106,14 @@ namespace BridgeTroll
             main_menu_.SetProcessInput(false);
         }
 
+        private void EnableNightMode()
+        {
+            GD.Print("Night Mode");
+            DisableMode(active_state_);
+            active_state_ = GameState.NIGHT_MODE;
+            EnableNode2D(night_mode_);
+        }
+
         private void EnableBuildMode()
         {
             GD.Print("Build Mode");
@@ -100,6 +128,7 @@ namespace BridgeTroll
             DisableMode(active_state_);
             active_state_ = GameState.DAY_MODE;
             EnableNode2D(day_mode_);
+            day_mode_.BeginDay();
         }
 
         public override void _Input(InputEvent @event)
@@ -120,7 +149,7 @@ namespace BridgeTroll
 
         private void _on_main_menu_new_game_started(string new_game_name)
         {
-            player_data.name = new_game_name;
+            player_data.troll_name = new_game_name;
             day_mode_.troll_.name = new_game_name;
             EnableDayMode();
         }
