@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace BridgeTroll
 {
-    public struct Bounty {
+    public struct Bounty
+    {
         public float amount;
     }
 
@@ -24,17 +25,11 @@ namespace BridgeTroll
 
         public List<Bounty> bounties;
 
-        private void DecayFunction() {
+        private void DecayFunction() { }
 
-        }
-
-        private void DecayFunctionRecent() {
-
-        }
+        private void DecayFunctionRecent() { }
 
         // This will take the events of the day.
-        public void UpdateAttitude() {
-
-        }
+        public void UpdateAttitude() { }
     }
 }

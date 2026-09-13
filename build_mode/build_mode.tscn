@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b178bgc5y3pgb" path="res://player_data.tscn" id="2_rtnm4"]
 [ext_resource type="PackedScene" uid="uid://pk1x0grhf7u6" path="res://buildings/debug_building.tscn" id="3_g0qln"]
 [ext_resource type="PackedScene" uid="uid://b2tbcbutv6cpk" path="res://buildings/tent.tscn" id="3_wy63d"]
-[ext_resource type="Texture2D" uid="uid://b1ojpho1dm7t" path="res://art/placeholder_art/tileBlue_03.png" id="3_xhbgs"]
+[ext_resource type="Texture2D" uid="uid://b1ojpho1dm7t" path="res://art_placeholders/tileBlue_03.png" id="3_xhbgs"]
 [ext_resource type="PackedScene" uid="uid://uci1883me6d" path="res://game_board.tscn" id="4_4e48y"]
 [ext_resource type="PackedScene" uid="uid://bxwbfvi5pyyq1" path="res://buildings/water_barrel.tscn" id="6_iox7t"]
 

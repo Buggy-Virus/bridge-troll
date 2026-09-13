@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace BridgeTroll
 {
-    public enum CommodityType {
+    public enum CommodityType
+    {
         FOOD_GRAINS,
         FOOD_VEGETABLES,
         FOOD_FRUITS,
@@ -18,7 +19,8 @@ namespace BridgeTroll
         MAGIC_ADVANCED,
     }
 
-    public class Commodity {
+    public class Commodity
+    {
         public CommodityType type;
         public float scarcity;
         public float resource_capacity;
@@ -32,7 +34,8 @@ namespace BridgeTroll
         public float labor_allocation;
     }
 
-    public struct LaborTransfer {
+    public struct LaborTransfer
+    {
         public float time_left;
         public float cost;
         public float labor_allocation_size;
@@ -40,7 +43,8 @@ namespace BridgeTroll
         public CommodityType commodity_entering;
     }
 
-    public enum BiasType {
+    public enum BiasType
+    {
         WEALTH,
         EDUCATION,
         MILITARY,
@@ -48,11 +52,10 @@ namespace BridgeTroll
         LAW,
     }
 
-    public struct Law {
+    public struct Law { }
 
-    }
-
-    public enum GovernmentType {
+    public enum GovernmentType
+    {
         NORMAL,
         NATIONALIST,
         TOTALITARIAN,
@@ -107,8 +110,6 @@ namespace BridgeTroll
         public Dictionary<Mob.Type, int> daily_mob_spawans_max;
 
         // Takes the events of the day as an argument
-        public void UpdateKingdom() {
-
-        }
+        public void UpdateKingdom() { }
     }
 }

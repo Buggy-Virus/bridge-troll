@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://GameBoard.cs" id="1_xjsc2"]
 [ext_resource type="PackedScene" uid="uid://brqgw4knswof3" path="res://placeholders/basic_node2d.tscn" id="4_bmow1"]
-[ext_resource type="Texture2D" uid="uid://sclhg5gtfuos" path="res://art/side_tiles/side_tiles_debug.png" id="5_rtbfg"]
-[ext_resource type="Texture2D" uid="uid://c8nfda8k186rg" path="res://art/placeholder_art/tilesheet_complete.png" id="6_t82in"]
-[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/tiles/tiles_debug.png" id="7_u735w"]
-[ext_resource type="Texture2D" uid="uid://chiituax2f4yc" path="res://art/wall_tiles/wall_debug.png" id="8_2qjy5"]
-[ext_resource type="Texture2D" uid="uid://bp0qj6kbicun3" path="res://art/assets/arch_debug.png" id="8_xgqay"]
+[ext_resource type="Texture2D" uid="uid://sclhg5gtfuos" path="res://art/structures/bridge/side_tiles_debug.png" id="5_rtbfg"]
+[ext_resource type="Texture2D" uid="uid://c8nfda8k186rg" path="res://art_placeholders/tilesheet_complete.png" id="6_t82in"]
+[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/structures/bridge/tiles_debug.png" id="7_u735w"]
+[ext_resource type="Texture2D" uid="uid://chiituax2f4yc" path="res://art/structures/bridge/wall_debug.png" id="8_2qjy5"]
+[ext_resource type="Texture2D" uid="uid://bp0qj6kbicun3" path="res://art/structures/bridge/arch_debug.png" id="8_xgqay"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_t7l1q"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bux702x38lgdc"]
 
-[ext_resource type="Texture2D" uid="uid://61yp2qu0wh5e" path="res://art/placeholder_art/icon.svg" id="1_ccxwq"]
+[ext_resource type="Texture2D" uid="uid://61yp2qu0wh5e" path="res://art_placeholders/icon.svg" id="1_ccxwq"]
 [ext_resource type="Script" path="res://night_mode/NightMode.cs" id="1_xql2h"]
 [ext_resource type="PackedScene" uid="uid://b178bgc5y3pgb" path="res://player_data.tscn" id="2_ufm2y"]
 [ext_resource type="Texture2D" uid="uid://bakutrdwtxjlu" path="res://art/effects/skull_debug.png" id="2_vk0wp"]

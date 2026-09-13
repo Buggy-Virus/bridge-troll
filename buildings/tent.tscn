@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://do27ri5nldy5r" path="res://art/buildings/tent_debug.png" id="1_ju23q"]
 [ext_resource type="Script" path="res://buildings/Building.cs" id="1_u82g8"]
-[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/tiles/tiles_debug.png" id="3_rx7di"]
+[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/structures/bridge/tiles_debug.png" id="3_rx7di"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ch2bl"]
 radius = 96.3328

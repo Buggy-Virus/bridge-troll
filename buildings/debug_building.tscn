@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=4 uid="uid://pk1x0grhf7u6"]
 
 [ext_resource type="Script" path="res://buildings/Building.cs" id="1_2yl0a"]
-[ext_resource type="Texture2D" uid="uid://61yp2qu0wh5e" path="res://art/placeholder_art/icon.svg" id="1_nqwva"]
-[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/tiles/tiles_debug.png" id="2_18uum"]
+[ext_resource type="Texture2D" uid="uid://61yp2qu0wh5e" path="res://art_placeholders/icon.svg" id="1_nqwva"]
+[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/structures/bridge/tiles_debug.png" id="2_18uum"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ch2bl"]
 radius = 96.3328

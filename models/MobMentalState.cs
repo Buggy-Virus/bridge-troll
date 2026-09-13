@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace BridgeTroll
 {
-    public enum GoalType {
+    public enum GoalType
+    {
         NONE,
         CROSS,
         VISIT,
@@ -19,9 +20,7 @@ namespace BridgeTroll
         SLAY,
     }
 
-    public struct Thought {
-
-    }
+    public struct Thought { }
 
     public class MobMentalState
     {

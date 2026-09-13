@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bxwbfvi5pyyq1"]
 
 [ext_resource type="Script" path="res://buildings/Building.cs" id="1_4ydac"]
-[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/tiles/tiles_debug.png" id="3_xqxtt"]
+[ext_resource type="Texture2D" uid="uid://bu2wyhhtkkex7" path="res://art/structures/bridge/tiles_debug.png" id="3_xqxtt"]
 [ext_resource type="Texture2D" uid="uid://h1cnvgueynws" path="res://art/buildings/barrel_debug.png" id="3_ybrtb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ch2bl"]
