@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bux702x38lgdc"]
+[gd_scene load_steps=7 format=3 uid="uid://bux702x38lgdc"]
 
-[ext_resource type="Texture2D" uid="uid://61yp2qu0wh5e" path="res://art_placeholders/icon.svg" id="1_ccxwq"]
 [ext_resource type="Script" path="res://night_mode/NightMode.cs" id="1_xql2h"]
+[ext_resource type="Texture2D" path="res://art_placeholders/night_background.png" id="2_bg_night"]
 [ext_resource type="PackedScene" uid="uid://b178bgc5y3pgb" path="res://player_data.tscn" id="2_ufm2y"]
-[ext_resource type="Texture2D" uid="uid://bakutrdwtxjlu" path="res://art/effects/skull_debug.png" id="2_vk0wp"]
 [ext_resource type="PackedScene" uid="uid://ixtttwup67jd" path="res://night_mode/inventory_interface.tscn" id="3_38o1c"]
 [ext_resource type="PackedScene" uid="uid://d3fultj7lym6w" path="res://night_mode/troll_stats_interface.tscn" id="4_r3fhv"]
 [ext_resource type="PackedScene" uid="uid://dci7xmj75nijv" path="res://night_mode/gear_interface.tscn" id="5_0ei43"]
@@ -12,39 +11,11 @@
 script = ExtResource("1_xql2h")
 debug_player_data_scene = ExtResource("2_ufm2y")
 
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("2_bg_night")
+
 [node name="Art" type="Node2D" parent="."]
-
-[node name="Icon5" type="Sprite2D" parent="Art"]
-position = Vector2(1224, 744)
-scale = Vector2(1.96875, 2)
-texture = ExtResource("1_ccxwq")
-
-[node name="Icon6" type="Sprite2D" parent="Art"]
-position = Vector2(1088, 832)
-texture = ExtResource("1_ccxwq")
-
-[node name="Icon" type="Sprite2D" parent="Art"]
-position = Vector2(1336, 688)
-scale = Vector2(3.20313, 3.11719)
-texture = ExtResource("1_ccxwq")
-
-[node name="SkullDebug" type="Sprite2D" parent="Art"]
-position = Vector2(1392, 432)
-scale = Vector2(28, 27.5)
-texture = ExtResource("2_vk0wp")
-
-[node name="Icon2" type="Sprite2D" parent="Art"]
-position = Vector2(1541, 840)
-texture = ExtResource("1_ccxwq")
-
-[node name="Icon3" type="Sprite2D" parent="Art"]
-position = Vector2(1312, 768)
-scale = Vector2(1.96875, 2)
-texture = ExtResource("1_ccxwq")
-
-[node name="Icon4" type="Sprite2D" parent="Art"]
-position = Vector2(1176, 856)
-texture = ExtResource("1_ccxwq")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
