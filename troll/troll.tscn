@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bvqgivua71jeu" path="res://art/characters/troll/troll_base_debug.png" id="13_4m400"]
 [ext_resource type="Texture2D" uid="uid://cv2yv8c2qmery" path="res://art/characters/troll/troll_run_1_debug.png" id="14_4p42c"]
 [ext_resource type="Texture2D" uid="uid://cjnp6vl334r1d" path="res://art/characters/troll/troll_run_2_debug.png" id="15_0e8kk"]
+[ext_resource type="PackedScene" path="res://troll/level_up_popup.tscn" id="16_lvlup"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bqjeo"]
 animations = [{
@@ -147,6 +148,9 @@ offset_top = -161.0
 offset_right = 0.0
 offset_bottom = -161.0
 size_flags_horizontal = 4
+
+[node name="LevelUpPopup" parent="." instance=ExtResource("16_lvlup")]
+visible = false
 
 [node name="ScareArea" type="Area2D" parent="."]
 position = Vector2(0, -32)

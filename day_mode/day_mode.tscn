@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://bijwo25jcdjvf"]
+[gd_scene load_steps=13 format=3 uid="uid://bijwo25jcdjvf"]
 
 [ext_resource type="Script" path="res://day_mode/DayMode.cs" id="1_pg0c5"]
+[ext_resource type="Texture2D" path="res://art_placeholders/day_background.png" id="2_bgday"]
 [ext_resource type="PackedScene" uid="uid://b178bgc5y3pgb" path="res://player_data.tscn" id="2_2bgw3"]
 [ext_resource type="PackedScene" uid="uid://uci1883me6d" path="res://game_board.tscn" id="2_qbtt3"]
 [ext_resource type="PackedScene" uid="uid://csjsk2ywyy8ib" path="res://mobs/peasant.tscn" id="3_qro13"]
@@ -28,6 +29,12 @@ debug_player_data_scene = ExtResource("2_2bgw3")
 debug_game_board_scene = ExtResource("2_qbtt3")
 peasant_scene = ExtResource("3_qro13")
 thug_scene = ExtResource("4_xrii0")
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -10
+z_as_relative = false
+position = Vector2(960, 540)
+texture = ExtResource("2_bgday")
 
 [node name="RightSide" type="Path2D" parent="."]
 scale = Vector2(1, 0.974359)
