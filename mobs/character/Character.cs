@@ -55,7 +55,36 @@ namespace BridgeTroll
         public bool is_defensive = false;
         public bool is_aggressive = false;
 
-        public int gold = 10;
+        public Inventory inventory;
+        private int _initialGold = 10;
+
+        public void EnsureInventory()
+        {
+            if (inventory == null)
+            {
+                inventory = GetNodeOrNull<Inventory>("Inventory");
+                if (inventory == null)
+                {
+                    inventory = new Inventory();
+                    inventory.Name = "Inventory";
+                    AddChild(inventory);
+                }
+                inventory.SetGold(_initialGold);
+            }
+        }
+
+        public int gold
+        {
+            get => inventory != null ? inventory.GetGold() : _initialGold;
+            set
+            {
+                _initialGold = value;
+                if (inventory != null)
+                {
+                    inventory.SetGold(value);
+                }
+            }
+        }
         public int offered_payment = 0;
         public bool finished_transaction = false;
 
@@ -170,6 +199,8 @@ namespace BridgeTroll
             hit_points = max_hit_points;
             health_bar.MaxValue = max_hit_points;
             health_bar.Value = max_hit_points;
+
+            EnsureInventory();
         }
 
         public override void _PhysicsProcess(double delta)

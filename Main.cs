@@ -26,6 +26,8 @@ namespace BridgeTroll
 
         public override void _Ready()
         {
+            InventoryTestRunner.RunTests();
+
             game_board = GetNode<GameBoard>("GameBoard");
             player_data = GetNode<PlayerData>("PlayerData");
             main_menu_ = GetNode<MainMenu>("MainMenu");
