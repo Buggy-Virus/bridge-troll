@@ -8,6 +8,8 @@ namespace BridgeTroll
     {
         private PlayerData player_data_;
 
+        public Troll troll { get; set; }
+
         [Export]
         public PackedScene debug_player_data_scene { get; set; }
 
@@ -22,14 +24,20 @@ namespace BridgeTroll
         public override void _Ready()
         {
             Node parent = GetParent();
-            if (parent is Main)
+            if (parent is Main main)
             {
-                player_data_ = parent.GetNode<PlayerData>("PlayerData");
+                player_data_ = main.player_data;
+                troll = main.troll;
             }
             else
             {
                 player_data_ = debug_player_data_scene.Instantiate<PlayerData>();
                 AddChild(player_data_);
+            }
+
+            if (troll == null && player_data_?.troll != null)
+            {
+                troll = player_data_.troll;
             }
 
             inventory_interface_ = GetNode<Control>("Control/InventoryInterface");

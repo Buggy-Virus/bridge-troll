@@ -16,6 +16,7 @@ namespace BridgeTroll
     {
         public GameBoard game_board;
         public PlayerData player_data;
+        public Troll troll;
         private MainMenu main_menu_;
         private BuildMode build_mode_;
         private DayMode day_mode_;
@@ -32,6 +33,17 @@ namespace BridgeTroll
             day_mode_ = GetNode<DayMode>("DayMode");
             night_mode_ = GetNode<NightMode>("NightMode");
             build_mode_ = GetNode<BuildMode>("BuildMode");
+
+            troll = day_mode_.troll_;
+            if (player_data != null)
+            {
+                player_data.troll = troll;
+            }
+            if (night_mode_ != null)
+            {
+                night_mode_.troll = troll;
+            }
+
             DisableNode2D(day_mode_);
             DisableNode2D(night_mode_);
             DisableNode2D(build_mode_);
@@ -48,11 +60,19 @@ namespace BridgeTroll
         private void OnNewGameStarted(string new_game_name)
         {
             player_data.troll_name = new_game_name;
+            if (troll != null)
+            {
+                troll.name = new_game_name;
+            }
             EnableDayMode();
         }
 
         void OnDayEnded()
         {
+            if (player_data != null && troll != null)
+            {
+                player_data.CollectDayGold(troll);
+            }
             EnableNightMode();
         }
 

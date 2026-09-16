@@ -26,7 +26,29 @@ namespace BridgeTroll
         public List<VictimOption> decision_list = new();
         private Node2D floater_parent_;
 
-        public int total_experience = 0;
+        [Export]
+        public PackedScene level_up_popup_packed_scene;
+
+        public LevelUpPopup level_up_popup_;
+
+        public TechTree tech_tree = new();
+
+        public void OpenLevelUpPopup()
+        {
+            if (level_up_popup_ != null)
+            {
+                level_up_popup_.Open(this);
+            }
+        }
+
+        public override void OnLevelUpEarned()
+        {
+            base.OnLevelUpEarned();
+            if (level_up_popup_ != null && !level_up_popup_.Visible)
+            {
+                OpenLevelUpPopup();
+            }
+        }
 
         public override void UniqueReady()
         {
@@ -40,8 +62,25 @@ namespace BridgeTroll
 
             damage = 4;
 
+            stats.base_speed = 600.0f;
+            stats.base_max_hit_points = 15;
+            stats.base_scary = 10;
+            stats.base_damage = 4;
+            stats.base_strength = 10;
+            stats.base_charisma = 10;
+            stats.base_intelligence = 10;
+
+            experience_needed = GetExperienceNeededForLevel(level);
+
             decision_popup_ = GetNode<DecisionPopup>("DecisionPopup");
             floater_parent_ = GetNode<Node2D>("FloaterParent");
+            level_up_popup_ = GetNodeOrNull<LevelUpPopup>("LevelUpPopup");
+            if (level_up_popup_ == null && level_up_popup_packed_scene != null)
+            {
+                level_up_popup_ = level_up_popup_packed_scene.Instantiate<LevelUpPopup>();
+                AddChild(level_up_popup_);
+            }
+
             target_position = Position;
             decision_popup_.Visible = false;
         }
@@ -55,14 +94,17 @@ namespace BridgeTroll
             gold_floater.MakeGoldFloater(gold_amount);
         }
 
-        public void AwardExperience(int experience_amount)
+        public override void AwardExperience(int experience_amount)
         {
-            total_experience += experience_amount;
+            base.AwardExperience(experience_amount);
 
-            RewardFloater experience_floater =
-                reward_floater_packed_scene.Instantiate<RewardFloater>();
-            floater_parent_.AddChild(experience_floater);
-            experience_floater.MakeExperienceFloater(experience_amount);
+            if (reward_floater_packed_scene != null && floater_parent_ != null)
+            {
+                RewardFloater experience_floater =
+                    reward_floater_packed_scene.Instantiate<RewardFloater>();
+                floater_parent_.AddChild(experience_floater);
+                experience_floater.MakeExperienceFloater(experience_amount);
+            }
         }
 
         public override void UniqueEnterGrapplingState()

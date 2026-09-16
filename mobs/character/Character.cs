@@ -61,6 +61,147 @@ namespace BridgeTroll
 
         public int experience_yield = 10;
 
+        public CharacterStats stats = new();
+
+        public int base_strength
+        {
+            get => stats.base_strength;
+            set => stats.base_strength = value;
+        }
+
+        public int base_intelligence
+        {
+            get => stats.base_intelligence;
+            set => stats.base_intelligence = value;
+        }
+
+        public int base_charisma
+        {
+            get => stats.base_charisma;
+            set => stats.base_charisma = value;
+        }
+
+        public int total_experience = 0;
+        public int level = 1;
+        public int current_level { get => level; set => level = value; }
+        public int experience_needed = 10;
+        public int pending_level_ups = 0;
+
+        public System.Collections.Generic.Dictionary<int, LevelUpData> level_data = new()
+        {
+            { 1, new LevelUpData(10, 5) },
+            { 2, new LevelUpData(25, 5) },
+            { 3, new LevelUpData(50, 5) },
+            { 4, new LevelUpData(100, 5) },
+            { 5, new LevelUpData(175, 5) },
+            { 6, new LevelUpData(275, 5) },
+            { 7, new LevelUpData(400, 5) },
+            { 8, new LevelUpData(550, 5) },
+            { 9, new LevelUpData(750, 5) },
+            { 10, new LevelUpData(1000, 5) }
+        };
+
+        public System.Collections.Generic.Dictionary<int, int> level_to_experience_needed = new()
+        {
+            { 1, 10 },
+            { 2, 25 },
+            { 3, 50 },
+            { 4, 100 },
+            { 5, 175 },
+            { 6, 275 },
+            { 7, 400 },
+            { 8, 550 },
+            { 9, 750 },
+            { 10, 1000 }
+        };
+
+        public System.Collections.Generic.Dictionary<int, int> level_to_stat_points_earned = new()
+        {
+            { 1, 5 },
+            { 2, 5 },
+            { 3, 5 },
+            { 4, 5 },
+            { 5, 5 },
+            { 6, 5 },
+            { 7, 5 },
+            { 8, 5 },
+            { 9, 5 },
+            { 10, 5 }
+        };
+
+        public int GetExperienceNeededForLevel(int lvl)
+        {
+            if (level_data.TryGetValue(lvl, out var data))
+            {
+                return data.experience_needed;
+            }
+            if (level_to_experience_needed.TryGetValue(lvl, out int exp))
+            {
+                return exp;
+            }
+            return Math.Max(1, lvl * 100);
+        }
+
+        public int GetStatPointsEarnedForLevel(int lvl)
+        {
+            if (level_data.TryGetValue(lvl, out var data))
+            {
+                return data.stat_points_earned;
+            }
+            if (level_to_stat_points_earned.TryGetValue(lvl, out int pts))
+            {
+                return pts;
+            }
+            return 5;
+        }
+
+        public bool HasPendingLevelUps() => pending_level_ups > 0;
+
+        public void ConsumePendingLevelUp()
+        {
+            if (pending_level_ups > 0)
+            {
+                pending_level_ups--;
+            }
+        }
+
+        public virtual void ApplyStatPoints(int strPoints, int charPoints, int intPoints)
+        {
+            stats.base_strength += strPoints;
+            stats.base_charisma += charPoints;
+            stats.base_intelligence += intPoints;
+
+            damage = stats.CalculateDamage();
+            max_hit_points = stats.CalculateMaxHitPoints();
+            hit_points = Math.Min(hit_points + (strPoints * 2), max_hit_points);
+            if (health_bar != null)
+            {
+                health_bar.MaxValue = max_hit_points;
+                health_bar.Value = hit_points;
+            }
+            scary = stats.CalculateScary();
+            courage = stats.CalculateEffectiveCourage();
+            surrender_hit_points = stats.CalculateSurrenderHitPoints();
+        }
+
+        public virtual void OnLevelUpEarned() { }
+
+        public virtual void AwardExperience(int experience_amount)
+        {
+            total_experience += experience_amount;
+            experience_needed -= experience_amount;
+
+            while (experience_needed <= 0)
+            {
+                pending_level_ups++;
+                level++;
+                int excess = -experience_needed;
+                int nextLevelExpNeeded = Math.Max(1, GetExperienceNeededForLevel(level));
+                experience_needed = nextLevelExpNeeded - excess;
+                OnLevelUpEarned();
+            }
+        }
+
         public CharacterState state = CharacterState.NONE;
 
         public List<VictimOption> options_experienced = new();
@@ -165,6 +306,8 @@ namespace BridgeTroll
             selection_area = GetNode<Area2D>("SelectionArea");
             scare_area = GetNode<Area2D>("ScareArea");
             health_bar = GetNode<ProgressBar>("HealthBar");
+
+            experience_needed = GetExperienceNeededForLevel(level);
 
             EnterNoneState();
             hit_points = max_hit_points;
