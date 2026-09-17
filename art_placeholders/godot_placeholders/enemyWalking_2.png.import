@@ -10,7 +10,7 @@ metadata={
 
 [deps]
 
-source_file="res://art_placeholders/enemyWalking_2.png"
+source_file="res://art_placeholders/godot_placeholders/enemyWalking_2.png"
 dest_files=["res://.godot/imported/enemyWalking_2.png-3404823c11a64bf1c9aa7ee4927f7299.ctex"]
 
 [params]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1ojpho1dm7t"
-path="res://.godot/imported/tileBlue_03.png-3bbc22915645411b6e58fc7816e8af63.ctex"
+uid="uid://bpot8awhdn6ph"
+path="res://.godot/imported/enemyFlyingAlt_2.png-8478741261902362b7e7616b9684a41e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art_placeholders/tileBlue_03.png"
-dest_files=["res://.godot/imported/tileBlue_03.png-3bbc22915645411b6e58fc7816e8af63.ctex"]
+source_file="res://art_placeholders/godot_placeholders/enemyFlyingAlt_2.png"
+dest_files=["res://.godot/imported/enemyFlyingAlt_2.png-8478741261902362b7e7616b9684a41e.ctex"]
 
 [params]
 

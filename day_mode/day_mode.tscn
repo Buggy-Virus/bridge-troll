@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://bijwo25jcdjvf"]
 
 [ext_resource type="Script" path="res://day_mode/DayMode.cs" id="1_pg0c5"]
-[ext_resource type="Texture2D" path="res://art_placeholders/day_background.png" id="2_bgday"]
+[ext_resource type="Texture2D" path="res://art_placeholders/day_mode/day_background.png" id="2_bgday"]
 [ext_resource type="PackedScene" uid="uid://b178bgc5y3pgb" path="res://player_data.tscn" id="2_2bgw3"]
 [ext_resource type="PackedScene" uid="uid://uci1883me6d" path="res://game_board.tscn" id="2_qbtt3"]
 [ext_resource type="PackedScene" uid="uid://csjsk2ywyy8ib" path="res://mobs/peasant.tscn" id="3_qro13"]
