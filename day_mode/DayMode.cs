@@ -77,6 +77,7 @@ namespace BridgeTroll
             if (parent is not Main)
             {
                 GameBoard game_board = debug_game_board_scene.Instantiate<GameBoard>();
+                game_board.Position = new Vector2(240, 0);
                 AddChild(game_board);
                 MoveChild(game_board, 0);
             }

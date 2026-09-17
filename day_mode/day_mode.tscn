@@ -13,7 +13,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_rebq8"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1920, 328.421, 0, 0, 0, 0, 1920, 656.842)
+"points": PackedVector2Array(0, 0, 0, 0, 2400, 328.421, 0, 0, 0, 0, 2400, 656.842)
 }
 point_count = 2
 
@@ -33,7 +33,7 @@ thug_scene = ExtResource("4_xrii0")
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -10
 z_as_relative = false
-position = Vector2(960, 540)
+position = Vector2(1200, 540)
 texture = ExtResource("2_bgday")
 
 [node name="RightSide" type="Path2D" parent="."]
@@ -41,7 +41,7 @@ scale = Vector2(1, 0.974359)
 curve = SubResource("Curve2D_rebq8")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="RightSide"]
-position = Vector2(1920, 328.421)
+position = Vector2(2400, 328.421)
 rotation = 1.5708
 
 [node name="LeftSide" type="Path2D" parent="."]
@@ -56,7 +56,7 @@ wait_time = 3.0
 autostart = true
 
 [node name="Troll" parent="." instance=ExtResource("5_bgmo4")]
-position = Vector2(664, 448)
+position = Vector2(904, 448)
 
 [node name="Mobs" type="Node2D" parent="."]
 
@@ -68,9 +68,9 @@ wait_time = 30.0
 one_shot = true
 
 [node name="SummaryPopup" parent="." instance=ExtResource("8_motl2")]
-offset_left = 960.0
+offset_left = 1200.0
 offset_top = 448.0
-offset_right = 960.0
+offset_right = 1200.0
 offset_bottom = 448.0
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

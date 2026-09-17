@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bxwbfvi5pyyq1" path="res://buildings/water_barrel.tscn" id="6_iox7t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hmhww"]
-size = Vector2(1920, 1080)
+size = Vector2(2400, 1080)
 
 [node name="BuildMode" type="Node2D"]
 script = ExtResource("1_xh8lw")
@@ -32,7 +32,7 @@ tile_set = ExtResource("2_3fxb7")
 [node name="BuildArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BuildArea"]
-position = Vector2(960, 540)
+position = Vector2(1200, 540)
 shape = SubResource("RectangleShape2D_hmhww")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
@@ -47,15 +47,14 @@ texture = ExtResource("3_xhbgs")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="BackButton" type="Button" parent="Control"]
 layout_mode = 0
-offset_left = 1728.0
+offset_left = 2208.0
 offset_top = 1016.0
-offset_right = 1920.0
+offset_right = 2400.0
 offset_bottom = 1080.0
 text = "Back"
 
