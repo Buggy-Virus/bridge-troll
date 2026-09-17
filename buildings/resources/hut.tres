@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://buildings/BuildingData.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://cb152qd76gluq" path="res://buildings/hut.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+Id = "hut"
+DisplayName = "Hut"
+BuildingType = 7
+WoodCost = 40
+LaborStrength = 50.0
+FootprintSize = Vector2i(3, 2)
+BuildingScene = ExtResource("2_scene")
+IsUnlockedByDefault = true

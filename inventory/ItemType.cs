@@ -9,6 +9,7 @@ namespace BridgeTroll
 
         // Non-unique goods (fungible, stackable)
         GOLD = 1,
+        WOOD = 2,
 
         // Unique goods (non-fungible, distinct state)
         LOINCLOTH = 100,
@@ -19,6 +20,7 @@ namespace BridgeTroll
         public static readonly IReadOnlyList<ItemType> NonUniqueItemTypes = new[]
         {
             ItemType.GOLD,
+            ItemType.WOOD,
         };
 
         public static readonly IReadOnlyList<ItemType> UniqueItemTypes = new[]

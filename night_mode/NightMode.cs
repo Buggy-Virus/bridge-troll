@@ -6,6 +6,9 @@ namespace BridgeTroll
 {
     public partial class NightMode : Node2D
     {
+        [Signal]
+        public delegate void BuildModeRequestedEventHandler();
+
         private PlayerData player_data_;
 
         public Troll troll { get; set; }
@@ -45,6 +48,7 @@ namespace BridgeTroll
             gear_interface_ = GetNode<Control>("Control/GearInterface");
             next_day_button = GetNode<Button>("Control/NextDayButton");
             build_mode_button = GetNode<Button>("Control/BuildModeButton");
+            build_mode_button.Pressed += () => EmitSignal(SignalName.BuildModeRequested);
 
             CloseControl(inventory_interface_);
             CloseControl(troll_stats_interface_);

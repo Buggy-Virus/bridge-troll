@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BridgeTroll;
 using Godot;
 
@@ -43,6 +44,64 @@ public partial class PlayerData : Node2D
     public EventFlags event_flags = new();
 
     /// <summary>
+    /// Set of unlocked building IDs for the player.
+    /// </summary>
+    public HashSet<string> unlocked_building_ids { get; set; } = new();
+
+    /// <summary>
+    /// Checks whether a building is unlocked by ID.
+    /// </summary>
+    public bool IsBuildingUnlocked(string buildingId)
+    {
+        if (string.IsNullOrEmpty(buildingId)) return false;
+        return unlocked_building_ids.Contains(buildingId);
+    }
+
+    /// <summary>
+    /// Checks whether a BuildingData resource is unlocked.
+    /// Returns true if it is unlocked by default or has been unlocked by the player.
+    /// </summary>
+    public bool IsBuildingUnlocked(BuildingData buildingData)
+    {
+        if (buildingData == null) return false;
+        if (buildingData.IsUnlockedByDefault) return true;
+        return IsBuildingUnlocked(buildingData.Id);
+    }
+
+    /// <summary>
+    /// Unlocks a building by its ID.
+    /// </summary>
+    public void UnlockBuilding(string buildingId)
+    {
+        if (!string.IsNullOrEmpty(buildingId))
+        {
+            unlocked_building_ids.Add(buildingId);
+        }
+    }
+
+    /// <summary>
+    /// Unlocks a building from its BuildingData resource.
+    /// </summary>
+    public void UnlockBuilding(BuildingData buildingData)
+    {
+        if (buildingData != null)
+        {
+            UnlockBuilding(buildingData.Id);
+        }
+    }
+
+    /// <summary>
+    /// Locks a building by its ID.
+    /// </summary>
+    public void LockBuilding(string buildingId)
+    {
+        if (!string.IsNullOrEmpty(buildingId))
+        {
+            unlocked_building_ids.Remove(buildingId);
+        }
+    }
+
+    /// <summary>
     /// Moves gold held by the troll mob during the day into the player's persistent treasury.
     /// </summary>
     public void CollectDayGold(Troll trollInstance = null)
@@ -72,7 +131,42 @@ public partial class PlayerData : Node2D
         return false;
     }
 
-    public override void _Ready() { }
+    /// <summary>
+    /// Player's base stash inventory.
+    /// </summary>
+    public Inventory inventory;
+
+    public void EnsureInventory()
+    {
+        if (inventory == null)
+        {
+            inventory = GetNodeOrNull<Inventory>("Inventory");
+            if (inventory == null)
+            {
+                inventory = new Inventory();
+                inventory.Name = "Inventory";
+                AddChild(inventory);
+            }
+            if (inventory.GetWood() == 0)
+            {
+                inventory.AddWood(100);
+            }
+        }
+    }
+
+    public int wood
+    {
+        get
+        {
+            EnsureInventory();
+            return inventory.GetWood();
+        }
+    }
+
+    public override void _Ready()
+    {
+        EnsureInventory();
+    }
 
     public override void _Process(double delta) { }
 }

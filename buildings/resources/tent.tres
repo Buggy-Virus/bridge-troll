@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://buildings/BuildingData.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://b2tbcbutv6cpk" path="res://buildings/tent.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+Id = "tent"
+DisplayName = "Tent"
+BuildingType = 8
+WoodCost = 20
+LaborStrength = 30.0
+FootprintSize = Vector2i(5, 2)
+BuildingScene = ExtResource("2_scene")
+IsUnlockedByDefault = true
