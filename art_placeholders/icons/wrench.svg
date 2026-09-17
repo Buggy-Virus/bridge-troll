@@ -1,0 +1,45 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Outer Glow / Drop Shadow for visibility on any background -->
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="1" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.8"/>
+  </filter>
+  
+  <g filter="url(#shadow)">
+    <!-- Wrench Body rotated 45 degrees -->
+    <path d="M 48 8 
+             C 43 5, 36 6, 33 11 
+             L 37 15 
+             C 38 16, 38 18, 37 19 
+             L 34 22 
+             C 33 23, 31 23, 30 22 
+             L 26 18 
+             C 21 21, 20 28, 23 33 
+             L 10 46 
+             C 7 49, 7 55, 11 58 
+             C 14 62, 20 62, 23 59 
+             L 36 46 
+             C 41 49, 48 48, 51 43 
+             L 47 39 
+             C 46 38, 46 36, 47 35 
+             L 50 32 
+             C 51 31, 53 31, 54 32 
+             L 58 36 
+             C 63 33, 64 26, 61 21 
+             C 59 18, 57 14, 53 11 
+             Z" 
+          fill="#f59e0b" 
+          stroke="#1f2937" 
+          stroke-width="3" 
+          stroke-linejoin="round" 
+          stroke-linecap="round"/>
+          
+    <!-- Inner metallic highlights and details -->
+    <path d="M 14 54 C 13 53, 13 51, 15 49 L 27 37" 
+          stroke="#fbbf24" 
+          stroke-width="2" 
+          stroke-linecap="round"/>
+          
+    <!-- Hole in the handle end -->
+    <circle cx="16" cy="53" r="3" fill="#1f2937"/>
+  </g>
+</svg>

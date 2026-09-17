@@ -45,19 +45,129 @@ position = Vector2(72, 72)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_xhbgs")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
-[node name="BackButton" type="Button" parent="Control"]
+[node name="CostCounterPanel" type="PanelContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -450.0
+offset_top = 20.0
+offset_right = 450.0
+offset_bottom = 80.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/CostCounterPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="CostCounterLabel" type="Label" parent="CanvasLayer/Control/CostCounterPanel/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Wood: 100  |  Planned Cost: 0  |  Remaining: 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BuildingStatsPanel" type="PanelContainer" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -380.0
+offset_top = 100.0
+offset_right = -40.0
+offset_bottom = 280.0
+grow_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/BuildingStatsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/BuildingStatsPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderHBox" type="HBoxContainer" parent="CanvasLayer/Control/BuildingStatsPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/Control/BuildingStatsPanel/MarginContainer/VBoxContainer/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Building Info"
+
+[node name="CloseButton" type="Button" parent="CanvasLayer/Control/BuildingStatsPanel/MarginContainer/VBoxContainer/HeaderHBox"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+text = "X"
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Control/BuildingStatsPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BuildingNameLabel" type="Label" parent="CanvasLayer/Control/BuildingStatsPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Building Name"
+
+[node name="StatusLabel" type="Label" parent="CanvasLayer/Control/BuildingStatsPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 16
+text = "Status: Built"
+
+[node name="LaborContainer" type="VBoxContainer" parent="CanvasLayer/Control/BuildingStatsPanel/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LaborRemainingLabel" type="Label" parent="CanvasLayer/Control/BuildingStatsPanel/MarginContainer/VBoxContainer/LaborContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Remaining Labor: 50 / 50"
+
+[node name="BuildingSelectionBar" type="HBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 1008.0
+offset_right = 1480.0
+offset_bottom = 1072.0
+theme_override_constants/separation = 12
+
+[node name="DeleteModeButton" type="Button" parent="CanvasLayer/Control/BuildingSelectionBar"]
+custom_minimum_size = Vector2(160, 60)
+layout_mode = 2
+text = "Delete Mode"
+
+[node name="ConfirmButton" type="Button" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 1520.0
+offset_top = 1008.0
+offset_right = 1710.0
+offset_bottom = 1072.0
+text = "Confirm"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/Control"]
 layout_mode = 0
 offset_left = 1728.0
-offset_top = 1016.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-text = "Back"
+offset_top = 1008.0
+offset_right = 1918.0
+offset_bottom = 1072.0
+text = "Cancel"
 
 [connection signal="area_entered" from="BuildArea" to="." method="_on_build_area_area_entered"]
 [connection signal="area_exited" from="BuildArea" to="." method="_on_build_area_area_exited"]

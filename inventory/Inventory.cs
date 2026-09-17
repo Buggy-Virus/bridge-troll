@@ -487,6 +487,40 @@ namespace BridgeTroll
             return false;
         }
 
+        // --- Wood specific helpers ---
+
+        public int GetWood()
+        {
+            return GetItemCount(ItemType.WOOD);
+        }
+
+        public void SetWood(int amount)
+        {
+            int current = GetWood();
+            if (amount == current) return;
+
+            if (amount > current)
+            {
+                AddWood(amount - current);
+            }
+            else
+            {
+                RemoveWood(current - amount);
+            }
+        }
+
+        public bool AddWood(int amount)
+        {
+            if (amount <= 0) return false;
+            Wood woodItem = new Wood(amount);
+            return AddItem(woodItem);
+        }
+
+        public int RemoveWood(int amount)
+        {
+            return RemoveItemType(ItemType.WOOD, amount);
+        }
+
         // --- Internal Node management ---
 
         private void AttachItemNode(Item item)
@@ -507,6 +541,8 @@ namespace BridgeTroll
             {
                 case ItemType.GOLD:
                     return new Gold(quantity);
+                case ItemType.WOOD:
+                    return new Wood(quantity);
                 default:
                     throw new ArgumentException($"Unknown non-unique item type: {type}");
             }

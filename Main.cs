@@ -54,7 +54,13 @@ namespace BridgeTroll
             day_mode_.DayEnded += OnDayEnded;
             night_mode_.next_day_button.Pressed += EnableDayMode;
             night_mode_.build_mode_button.Pressed += EnableBuildMode;
-            build_mode_.back_button.Pressed += EnableNightMode;
+            night_mode_.BuildModeRequested += EnableBuildMode;
+            build_mode_.BuildModeConfirmed += EnableNightMode;
+            build_mode_.BuildModeCancelled += EnableNightMode;
+            if (build_mode_.back_button != null)
+            {
+                build_mode_.back_button.Pressed += EnableNightMode;
+            }
 
             EnableMainMenu();
         }
@@ -142,6 +148,7 @@ namespace BridgeTroll
             DisableMode(active_state_);
             active_state_ = GameState.BUILD_MODE;
             EnableNode2D(build_mode_);
+            build_mode_.OnEnterBuildMode();
         }
 
         private void EnableDayMode()

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://buildings/BuildingData.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bxwbfvi5pyyq1" path="res://buildings/water_barrel.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+Id = "water_barrel"
+DisplayName = "Barrel"
+BuildingType = 6
+WoodCost = 10
+LaborStrength = 15.0
+FootprintSize = Vector2i(1, 1)
+BuildingScene = ExtResource("2_scene")
+IsUnlockedByDefault = false
