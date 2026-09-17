@@ -39,6 +39,9 @@ namespace BridgeTroll
 
     public partial class Character : CharacterBody2D
     {
+        [Signal]
+        public delegate void StatsChangedEventHandler();
+
         public CharacterType type = CharacterType.DEBUG;
         public string name = "debug";
 
@@ -66,19 +69,53 @@ namespace BridgeTroll
         public int base_strength
         {
             get => stats.base_strength;
-            set => stats.base_strength = value;
+            set
+            {
+                if (stats.base_strength != value)
+                {
+                    stats.base_strength = value;
+                    RecalculateDependentStats();
+                }
+            }
         }
 
         public int base_intelligence
         {
             get => stats.base_intelligence;
-            set => stats.base_intelligence = value;
+            set
+            {
+                if (stats.base_intelligence != value)
+                {
+                    stats.base_intelligence = value;
+                    RecalculateDependentStats();
+                }
+            }
         }
 
         public int base_charisma
         {
             get => stats.base_charisma;
-            set => stats.base_charisma = value;
+            set
+            {
+                if (stats.base_charisma != value)
+                {
+                    stats.base_charisma = value;
+                    RecalculateDependentStats();
+                }
+            }
+        }
+
+        public float base_speed
+        {
+            get => stats.base_speed;
+            set
+            {
+                if (Math.Abs(stats.base_speed - value) > 0.001f)
+                {
+                    stats.base_speed = value;
+                    RecalculateDependentStats();
+                }
+            }
         }
 
         public int total_experience = 0;
@@ -86,6 +123,50 @@ namespace BridgeTroll
         public int current_level { get => level; set => level = value; }
         public int experience_needed = 10;
         public int pending_level_ups = 0;
+
+        public int strength_feat_points = 0;
+        public int intelligence_feat_points = 0;
+        public int charisma_feat_points = 0;
+
+        public int labor_intelligence = 0;
+        public int labor_strength = 0;
+        public int labor_charisma = 0;
+        public Dictionary<string, int> resources = new(StringComparer.OrdinalIgnoreCase);
+
+        public int GetResource(string resourceName)
+        {
+            if (string.IsNullOrEmpty(resourceName)) return 0;
+            resources.TryGetValue(resourceName, out int count);
+            return count;
+        }
+
+        public void AddResource(string resourceName, int count = 1)
+        {
+            if (string.IsNullOrEmpty(resourceName) || count <= 0) return;
+            if (resources.ContainsKey(resourceName))
+                resources[resourceName] += count;
+            else
+                resources[resourceName] = count;
+        }
+
+        public bool HasResource(string resourceName, int count = 1)
+        {
+            return GetResource(resourceName) >= count;
+        }
+
+        public bool SpendResource(string resourceName, int count = 1)
+        {
+            if (!HasResource(resourceName, count)) return false;
+            resources[resourceName] -= count;
+            return true;
+        }
+
+        public void AddLabor(int intelligence = 0, int strength = 0, int charisma = 0)
+        {
+            labor_intelligence += intelligence;
+            labor_strength += strength;
+            labor_charisma += charisma;
+        }
 
         public System.Collections.Generic.Dictionary<int, LevelUpData> level_data = new()
         {
@@ -165,23 +246,46 @@ namespace BridgeTroll
             }
         }
 
+        /// <summary>
+        /// Recalculates all stored dependent values (damage, max HP, walk/run/limp speed,
+        /// scary, courage, surrender HP) based on current underlying stats, updates UI elements,
+        /// and emits the StatsChanged signal. Called whenever stats or modifiers are altered.
+        /// </summary>
+        public virtual void RecalculateDependentStats()
+        {
+            damage = stats.CalculateDamage();
+            max_hit_points = stats.CalculateMaxHitPoints();
+            hit_points = Math.Min(hit_points, max_hit_points);
+
+            walk_speed = stats.CalculateWalkSpeed();
+            run_speed = stats.CalculateRunSpeed();
+            limp_speed = stats.CalculateLimpSpeed();
+
+            scary = stats.CalculateScary();
+            courage = stats.CalculateEffectiveCourage();
+            surrender_hit_points = stats.CalculateSurrenderHitPoints();
+
+            if (health_bar != null)
+            {
+                health_bar.MaxValue = max_hit_points;
+                health_bar.Value = hit_points;
+            }
+
+            EmitSignal(SignalName.StatsChanged);
+        }
+
         public virtual void ApplyStatPoints(int strPoints, int charPoints, int intPoints)
         {
             stats.base_strength += strPoints;
             stats.base_charisma += charPoints;
             stats.base_intelligence += intPoints;
 
-            damage = stats.CalculateDamage();
-            max_hit_points = stats.CalculateMaxHitPoints();
-            hit_points = Math.Min(hit_points + (strPoints * 2), max_hit_points);
-            if (health_bar != null)
-            {
-                health_bar.MaxValue = max_hit_points;
-                health_bar.Value = hit_points;
-            }
-            scary = stats.CalculateScary();
-            courage = stats.CalculateEffectiveCourage();
-            surrender_hit_points = stats.CalculateSurrenderHitPoints();
+            strength_feat_points += strPoints;
+            charisma_feat_points += charPoints;
+            intelligence_feat_points += intPoints;
+
+            hit_points += (strPoints * 2);
+            RecalculateDependentStats();
         }
 
         public virtual void OnLevelUpEarned() { }
@@ -309,10 +413,10 @@ namespace BridgeTroll
 
             experience_needed = GetExperienceNeededForLevel(level);
 
-            EnterNoneState();
+            RecalculateDependentStats();
             hit_points = max_hit_points;
-            health_bar.MaxValue = max_hit_points;
-            health_bar.Value = max_hit_points;
+
+            EnterNoneState();
         }
 
         public override void _PhysicsProcess(double delta)

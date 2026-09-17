@@ -32,6 +32,9 @@ namespace BridgeTroll
         public LevelUpPopup level_up_popup_;
 
         public TechTree tech_tree = new();
+        public FeatTree feat_tree = new();
+        public ResearchTechTree research_tree = new();
+        public PlayerData player_data;
 
         public void OpenLevelUpPopup()
         {
@@ -52,16 +55,6 @@ namespace BridgeTroll
 
         public override void UniqueReady()
         {
-            walk_speed = 600.0f;
-            run_speed = 10000.0f;
-
-            max_hit_points = 15;
-            hit_points = 15;
-
-            scary = 10;
-
-            damage = 4;
-
             stats.base_speed = 600.0f;
             stats.base_max_hit_points = 15;
             stats.base_scary = 10;
@@ -70,7 +63,8 @@ namespace BridgeTroll
             stats.base_charisma = 10;
             stats.base_intelligence = 10;
 
-            experience_needed = GetExperienceNeededForLevel(level);
+            RecalculateDependentStats();
+            hit_points = max_hit_points;
 
             decision_popup_ = GetNode<DecisionPopup>("DecisionPopup");
             floater_parent_ = GetNode<Node2D>("FloaterParent");

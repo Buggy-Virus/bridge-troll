@@ -103,11 +103,11 @@ namespace BridgeTroll
         public static int calculate_surrender_hit_points(int baseSurrenderHp, int baseMaxHp, int baseCourage) =>
             CalculateSurrenderHitPoints(baseSurrenderHp, baseMaxHp, baseCourage);
 
-        /// <summary> Calculates effective damage including base strength modifier. </summary>
-        public static int CalculateDamage(int baseDamage, int baseStrength) =>
-            baseDamage + Math.Max(0, (baseStrength - 10) / 2);
-        public static int calculate_damage(int baseDamage, int baseStrength) =>
-            CalculateDamage(baseDamage, baseStrength);
+        /// <summary> Calculates effective damage (currently equal to base strength). </summary>
+        public static int CalculateDamage(int baseStrength) => baseStrength;
+        public static int CalculateDamage(int baseDamage, int baseStrength) => baseStrength;
+        public static int calculate_damage(int baseStrength) => CalculateDamage(baseStrength);
+        public static int calculate_damage(int baseDamage, int baseStrength) => CalculateDamage(baseStrength);
 
         /// <summary> Calculates effective scariness considering base strength and base scariness. </summary>
         public static int CalculateScary(int baseScary, int baseStrength) =>
@@ -147,7 +147,7 @@ namespace BridgeTroll
         public int calculate_surrender_hit_points() => CalculateSurrenderHitPoints();
 
         /// <summary> Calculates effective damage for this stats instance. </summary>
-        public int CalculateDamage() => CalculateDamage(base_damage, base_strength);
+        public int CalculateDamage() => CalculateDamage(base_strength);
         public int calculate_damage() => CalculateDamage();
 
         /// <summary> Calculates effective scariness for this stats instance. </summary>
