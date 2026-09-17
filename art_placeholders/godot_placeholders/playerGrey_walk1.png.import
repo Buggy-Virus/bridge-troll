@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ftkxr8r4qghp"
-path="res://.godot/imported/playerGrey_walk1.png-773ab8cc85fc722a7d837f6d5661bb43.ctex"
+path="res://.godot/imported/playerGrey_walk1.png-6d21e194de6baf28eb2c0dd5b92c463a.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://art_placeholders/godot_placeholders/playerGrey_walk1.png"
-dest_files=["res://.godot/imported/playerGrey_walk1.png-773ab8cc85fc722a7d837f6d5661bb43.ctex"]
+dest_files=["res://.godot/imported/playerGrey_walk1.png-6d21e194de6baf28eb2c0dd5b92c463a.ctex"]
 
 [params]
 

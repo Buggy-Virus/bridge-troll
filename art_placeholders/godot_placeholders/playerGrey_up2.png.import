@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bko65a0nd66st"
-path="res://.godot/imported/playerGrey_up2.png-3db0945aeaaf87d5e535790d1e818769.ctex"
+path="res://.godot/imported/playerGrey_up2.png-ecefecd51961173d2c088f7e0540b6c3.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://art_placeholders/godot_placeholders/playerGrey_up2.png"
-dest_files=["res://.godot/imported/playerGrey_up2.png-3db0945aeaaf87d5e535790d1e818769.ctex"]
+dest_files=["res://.godot/imported/playerGrey_up2.png-ecefecd51961173d2c088f7e0540b6c3.ctex"]
 
 [params]
 

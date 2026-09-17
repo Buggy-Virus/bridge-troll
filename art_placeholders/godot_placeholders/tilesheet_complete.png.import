@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c8nfda8k186rg"
-path="res://.godot/imported/tilesheet_complete.png-f35711d78cd4cfc84f549a3f98efd5fa.ctex"
+path="res://.godot/imported/tilesheet_complete.png-51b9c0e5b4cdf76b3d867dbd35ef6075.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://art_placeholders/godot_placeholders/tilesheet_complete.png"
-dest_files=["res://.godot/imported/tilesheet_complete.png-f35711d78cd4cfc84f549a3f98efd5fa.ctex"]
+dest_files=["res://.godot/imported/tilesheet_complete.png-51b9c0e5b4cdf76b3d867dbd35ef6075.ctex"]
 
 [params]
 
