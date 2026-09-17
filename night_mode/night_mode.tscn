@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bux702x38lgdc"]
+[gd_scene load_steps=21 format=3 uid="uid://bux702x38lgdc"]
 
 [ext_resource type="Script" path="res://night_mode/NightMode.cs" id="1_xql2h"]
 [ext_resource type="Texture2D" path="res://art_placeholders/night_mode/night_background.png" id="2_bg_night"]
@@ -12,11 +12,15 @@
 [ext_resource type="Texture2D" path="res://art_placeholders/night_mode/gnarly_tree.png" id="9_tree"]
 [ext_resource type="Texture2D" path="res://art_placeholders/night_mode/crow.png" id="10_crow"]
 [ext_resource type="Texture2D" path="res://art_placeholders/night_mode/money_sack_full.png" id="11_sack"]
+[ext_resource type="Texture2D" path="res://art_placeholders/night_mode/owl.png" id="12_owl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tree"]
 size = Vector2(300, 380)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_crow"]
+radius = 35.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_owl"]
 radius = 35.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_troll"]
@@ -61,6 +65,16 @@ texture = ExtResource("10_crow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="POIs/Crow"]
 shape = SubResource("CircleShape2D_crow")
+
+[node name="Owl" type="Area2D" parent="POIs"]
+position = Vector2(910, 528)
+
+[node name="Sprite2D" type="Sprite2D" parent="POIs/Owl"]
+scale = Vector2(0.115, 0.115)
+texture = ExtResource("12_owl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="POIs/Owl"]
+shape = SubResource("CircleShape2D_owl")
 
 [node name="Troll" type="Area2D" parent="POIs"]
 position = Vector2(1330, 740)
