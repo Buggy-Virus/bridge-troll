@@ -198,6 +198,7 @@ namespace BridgeTroll
                 player_data_ = debug_player_data_scene.Instantiate<PlayerData>();
                 AddChild(player_data_);
                 game_board_ = debug_game_board_scene.Instantiate<GameBoard>();
+                game_board_.Position = new Vector2(240, 0);
                 AddChild(game_board_);
                 build_mode_grid = game_board_.build_mode_grid;
                 buildings_parent = game_board_.build_mode_grid;

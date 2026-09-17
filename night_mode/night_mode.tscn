@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bux702x38lgdc"]
+[gd_scene load_steps=19 format=3 uid="uid://bux702x38lgdc"]
 
 [ext_resource type="Script" path="res://night_mode/NightMode.cs" id="1_xql2h"]
 [ext_resource type="Texture2D" path="res://art_placeholders/night_background.png" id="2_bg_night"]
@@ -6,14 +6,101 @@
 [ext_resource type="PackedScene" uid="uid://ixtttwup67jd" path="res://night_mode/inventory_interface.tscn" id="3_38o1c"]
 [ext_resource type="PackedScene" uid="uid://d3fultj7lym6w" path="res://night_mode/troll_stats_interface.tscn" id="4_r3fhv"]
 [ext_resource type="PackedScene" uid="uid://dci7xmj75nijv" path="res://night_mode/gear_interface.tscn" id="5_0ei43"]
+[ext_resource type="Texture2D" path="res://art_placeholders/night_cycle_pois/cracked_mirror.png" id="6_mirror"]
+[ext_resource type="Texture2D" path="res://art_placeholders/night_cycle_pois/troll_sitting.png" id="7_troll"]
+[ext_resource type="Texture2D" path="res://art_placeholders/night_cycle_pois/crates_and_sacks.png" id="8_crates"]
+[ext_resource type="Texture2D" path="res://art_placeholders/night_cycle_pois/gnarly_tree.png" id="9_tree"]
+[ext_resource type="Texture2D" path="res://art_placeholders/night_cycle_pois/crow.png" id="10_crow"]
+[ext_resource type="Texture2D" path="res://art_placeholders/night_cycle_pois/money_sack_full.png" id="11_sack"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tree"]
+size = Vector2(300, 380)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_crow"]
+radius = 35.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_troll"]
+radius = 130.0
+height = 320.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crates"]
+size = Vector2(250, 220)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sack"]
+radius = 45.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mirror"]
+size = Vector2(110, 160)
 
 [node name="NightMode" type="Node2D"]
 script = ExtResource("1_xql2h")
 debug_player_data_scene = ExtResource("2_ufm2y")
 
 [node name="Background" type="Sprite2D" parent="."]
-position = Vector2(960, 540)
+position = Vector2(1200, 540)
 texture = ExtResource("2_bg_night")
+
+[node name="POIs" type="Node2D" parent="."]
+
+[node name="Tree" type="Area2D" parent="POIs"]
+position = Vector2(819, 620)
+
+[node name="Sprite2D" type="Sprite2D" parent="POIs/Tree"]
+scale = Vector2(0.442, 0.442)
+texture = ExtResource("9_tree")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="POIs/Tree"]
+shape = SubResource("RectangleShape2D_tree")
+
+[node name="Crow" type="Area2D" parent="POIs"]
+position = Vector2(794, 562)
+
+[node name="Sprite2D" type="Sprite2D" parent="POIs/Crow"]
+scale = Vector2(0.091, 0.091)
+texture = ExtResource("10_crow")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="POIs/Crow"]
+shape = SubResource("CircleShape2D_crow")
+
+[node name="Troll" type="Area2D" parent="POIs"]
+position = Vector2(1330, 740)
+
+[node name="Sprite2D" type="Sprite2D" parent="POIs/Troll"]
+scale = Vector2(0.408, 0.408)
+texture = ExtResource("7_troll")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="POIs/Troll"]
+shape = SubResource("CapsuleShape2D_troll")
+
+[node name="CratesAndSacks" type="Area2D" parent="POIs"]
+position = Vector2(1730, 720)
+
+[node name="Sprite2D" type="Sprite2D" parent="POIs/CratesAndSacks"]
+scale = Vector2(0.309, 0.309)
+texture = ExtResource("8_crates")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="POIs/CratesAndSacks"]
+shape = SubResource("RectangleShape2D_crates")
+
+[node name="MoneySack" type="Area2D" parent="POIs"]
+position = Vector2(1570, 828)
+
+[node name="Sprite2D" type="Sprite2D" parent="POIs/MoneySack"]
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("11_sack")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="POIs/MoneySack"]
+shape = SubResource("CircleShape2D_sack")
+
+[node name="CrackedMirror" type="Area2D" parent="POIs"]
+position = Vector2(2032, 405)
+
+[node name="Sprite2D" type="Sprite2D" parent="POIs/CrackedMirror"]
+scale = Vector2(0.198, 0.198)
+texture = ExtResource("6_mirror")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="POIs/CrackedMirror"]
+shape = SubResource("RectangleShape2D_mirror")
 
 [node name="Art" type="Node2D" parent="."]
 
@@ -27,30 +114,30 @@ grow_vertical = 2
 
 [node name="InventoryInterface" parent="Control" instance=ExtResource("3_38o1c")]
 layout_mode = 1
-offset_left = 1376.0
+offset_left = 1616.0
 offset_top = 512.0
-offset_right = 1376.0
+offset_right = 1616.0
 offset_bottom = 512.0
 
 [node name="TrollStatsInterface" parent="Control" instance=ExtResource("4_r3fhv")]
 layout_mode = 1
-offset_left = 488.0
+offset_left = 610.0
 offset_top = 512.0
-offset_right = 488.0
+offset_right = 610.0
 offset_bottom = 512.0
 
 [node name="GearInterface" parent="Control" instance=ExtResource("5_0ei43")]
 layout_mode = 1
-offset_left = 488.0
+offset_left = 610.0
 offset_top = 512.0
-offset_right = 488.0
+offset_right = 610.0
 offset_bottom = 512.0
 
 [node name="NextDayButton" type="Button" parent="Control"]
 layout_mode = 0
-offset_left = 1728.0
+offset_left = 2208.0
 offset_top = 1016.0
-offset_right = 1920.0
+offset_right = 2400.0
 offset_bottom = 1080.0
 text = "Next Day"
 
