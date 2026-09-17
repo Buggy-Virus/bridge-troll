@@ -24,7 +24,19 @@ public partial class PlayerData : Node2D
     /// Reference to the persistent Troll mob.
     /// The Troll mob owns its own experience, level, and stats.
     /// </summary>
-    public Troll troll;
+    private Troll _troll;
+    public Troll troll
+    {
+        get => _troll;
+        set
+        {
+            _troll = value;
+            if (_troll != null)
+            {
+                _troll.player_data = this;
+            }
+        }
+    }
 
     /// <summary>
     /// Forwards to the Troll mob's total experience.
@@ -36,6 +48,58 @@ public partial class PlayerData : Node2D
         {
             if (troll != null) troll.total_experience = value;
         }
+    }
+
+    /// <summary>
+    /// Research tech tree storing unlocked research technologies.
+    /// </summary>
+    public ResearchTechTree research_tree = new();
+
+    /// <summary>
+    /// Available labor units of intelligence, strength, and charisma for research projects.
+    /// </summary>
+    public int labor_intelligence = 0;
+    public int labor_strength = 0;
+    public int labor_charisma = 0;
+
+    /// <summary>
+    /// Physical resources and items collected for research and building (e.g. books, wood, stone).
+    /// </summary>
+    public System.Collections.Generic.Dictionary<string, int> resources = new(StringComparer.OrdinalIgnoreCase);
+
+    public int GetResource(string resourceName)
+    {
+        if (string.IsNullOrEmpty(resourceName)) return 0;
+        resources.TryGetValue(resourceName, out int count);
+        return count;
+    }
+
+    public void AddResource(string resourceName, int count = 1)
+    {
+        if (string.IsNullOrEmpty(resourceName) || count <= 0) return;
+        if (resources.ContainsKey(resourceName))
+            resources[resourceName] += count;
+        else
+            resources[resourceName] = count;
+    }
+
+    public bool HasResource(string resourceName, int count = 1)
+    {
+        return GetResource(resourceName) >= count;
+    }
+
+    public bool SpendResource(string resourceName, int count = 1)
+    {
+        if (!HasResource(resourceName, count)) return false;
+        resources[resourceName] -= count;
+        return true;
+    }
+
+    public void AddLabor(int intelligence = 0, int strength = 0, int charisma = 0)
+    {
+        labor_intelligence += intelligence;
+        labor_strength += strength;
+        labor_charisma += charisma;
     }
 
     /// <summary>

@@ -39,7 +39,7 @@ namespace BridgeTroll
         /// <summary>
         /// Registers an unlockable technology into the tech tree.
         /// </summary>
-        public void RegisterTechnology(UnlockableTechnology technology)
+        public virtual void RegisterTechnology(UnlockableTechnology technology)
         {
             if (technology == null || technology.type == TechnologyType.NONE) return;
 
@@ -165,7 +165,7 @@ namespace BridgeTroll
         /// <summary>
         /// Checks if all prerequisite technologies for a given technology are already unlocked.
         /// </summary>
-        public bool ArePrerequisitesMet(UnlockableTechnology technology)
+        public virtual bool ArePrerequisitesMet(UnlockableTechnology technology)
         {
             if (technology == null || technology.prerequisite_technologies == null) return true;
             return technology.prerequisite_technologies.All(IsTechnologyUnlocked);
@@ -174,7 +174,7 @@ namespace BridgeTroll
         /// <summary>
         /// Attempts to unlock a specific technology for the troll during night or progression cycles.
         /// </summary>
-        public bool UnlockTechnology(TechnologyType type, Troll troll)
+        public virtual bool UnlockTechnology(TechnologyType type, Troll troll)
         {
             if (!technologies.TryGetValue(type, out var tech))
             {
@@ -197,7 +197,7 @@ namespace BridgeTroll
         /// <summary>
         /// Retrieves a specific technology node by type.
         /// </summary>
-        public UnlockableTechnology GetTechnology(TechnologyType type)
+        public virtual UnlockableTechnology GetTechnology(TechnologyType type)
         {
             technologies.TryGetValue(type, out var tech);
             return tech;
